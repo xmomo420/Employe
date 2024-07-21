@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,7 +45,10 @@ public class AuthentificationController {
             String messageErreur = idNouvelEmploye.substring(12);
             return ResponseEntity.internalServerError().body(messageErreur);
         }
-        return ResponseEntity.ok().body(idNouvelEmploye);
+        // Utiliser l'URI de l'endpoint d'inscription comme placeholder
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+        // TODO : "api/employe/{id}"
+        return ResponseEntity.created(location).body(idNouvelEmploye);
     }
 
     @GetMapping("/test")

@@ -32,7 +32,7 @@ public class EmployeService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Le nom utilisateur \"" + nomUtilisateur + "\" n'existe pas"));
     }
 
-    private static boolean sontDonneeValide(Employe employe) {
+    private static boolean sontDonneesValide(Employe employe) {
         return employe.getPrenom() != null && !employe.getPrenom().isEmpty()
                 && !employe.getPrenom().isBlank() && employe.getNom() != null
                 && !employe.getNom().isEmpty() && !employe.getNom().isBlank()
@@ -48,17 +48,18 @@ public class EmployeService implements UserDetailsService {
 
     public String ajouterEmploye(Employe employe) {
         String id = "";
-        if (!sontDonneeValide(employe)) {
+        if (!sontDonneesValide(employe)) {
             return id;
         }
         // TODO : Ajouter les autres renseignements (Mot de passe, nom d'utilisateur)
+
         employe.setMotDePasse(passwordEncoder.encode("abc123"));
         employe.setNomUtilisateur("admin");
         try {
             Employe employeAjoute = employeRepository.save(employe);
             id = employeAjoute.getId().toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getLocalizedMessage());
             id = "Exception : " + e.getLocalizedMessage();
         }
         return id;
