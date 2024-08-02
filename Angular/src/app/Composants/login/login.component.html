@@ -1,1 +1,33 @@
-<p>login works!</p>
+<main>
+  <div *ngIf="route.snapshot.queryParams['redirection']" style="width: 35%" class="container text-center" role="alert">
+    <h2 class="alert alert-danger">{{MESSAGE_CONNEXION_REQUISE}}</h2>
+  </div>
+  <div style="width: 35%" class="container card p-4 mx-auto">
+    <h3 class="text-center">Authentification</h3>
+    <hr>
+    <div *ngIf="afficherErreurFormulaire" role="alert">
+      <h4 class="alert alert-danger text-center">{{messageErreurApproprie}}</h4>
+    </div>
+    <form #loginForm="ngForm" (ngSubmit)="soummettreFormulaire()" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label text-start">Nom d'utilisateur d'employé</label>
+        <input #_nomUtilisateur="ngModel" [(ngModel)]="nomUtilisateur" type="text" class="form-control"
+          [class.is-valid]="nomUtilisateurValide() && _nomUtilisateur.touched"
+          [class.is-invalid]="!nomUtilisateurValide() && (_nomUtilisateur.touched || loginForm.submitted)" name="nomUtilisateur">
+        <div class="invalid-feedback">{{MESSAGE_NOM_UTILISATEUR_INVALIDE}}</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Mot de passe</label>
+        <input #_motDePasse="ngModel" [(ngModel)]="motDePasse" type="password" class="form-control" name="motDePasse"
+          [class.is-valid]="motDePasseValide() && _motDePasse.touched" [class.is-invalid]="!motDePasseValide()
+          && (_motDePasse.touched || loginForm.submitted)">
+        <div class="invalid-feedback">{{MESSAGE_MOT_DE_PASSE_INVALIDE}}</div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-success">Connexion</button>
+      </div>
+      <hr>
+      <!-- TODO : Bulle qui indique que si l'utilisateur a oublié ces renseignements, il faut aviser un supérieur -->
+    </form>
+  </div>
+</main>

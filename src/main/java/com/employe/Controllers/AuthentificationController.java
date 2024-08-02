@@ -6,7 +6,6 @@ import com.employe.Models.Employe;
 import com.employe.Services.EmployeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -49,11 +48,6 @@ public class AuthentificationController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
         // TODO : "api/employe/{id}"
         return ResponseEntity.created(location).body(idNouvelEmploye);
-    }
-
-    @GetMapping("/test")
-    public String routeProtegee() {
-        return "Accès à la route protégée";
     }
 
 }

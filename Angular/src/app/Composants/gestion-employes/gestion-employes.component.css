@@ -1,0 +1,6 @@
+/* Pour floutter l'arrière plan */
+.blurred {
+  filter: blur(10px);
+}
+
+

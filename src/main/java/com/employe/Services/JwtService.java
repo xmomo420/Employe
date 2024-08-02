@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.Date;
 
@@ -21,12 +22,13 @@ public class JwtService {
                                     .getEncoded()
                     );
 
-    public String genererJwt(String idEmploye, String nomUtilisateur, String motDePasse) {
+    public String genererJwtLogin(String idEmploye, String nomComplet, String role, LocalDate dateEmbauche) {
         return JWT.create()
-                .withSubject("User credentials")
+                .withSubject("Données de l'employé")
                 .withClaim("idEmploye", idEmploye)
-                .withClaim("nomUtilisateur",nomUtilisateur)
-                .withClaim("motDePasse", motDePasse)
+                .withClaim("nomComplet", nomComplet)
+                .withClaim("role", role)
+                .withClaim("dateEmbauche", dateEmbauche.toString())
                 .withExpiresAt(DATE_EXPIRATION)
                 .sign(Algorithm.HMAC256(SECRET_KEY));
     }

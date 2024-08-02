@@ -1,0 +1,34 @@
+<main>
+  <div style="width: 45%" class="foreground container card p-4">
+    <h2 class="text-center mb-3">Ajout d'un nouvel employé</h2>
+    <hr>
+    <form class="row g-3 mb-3" #formulaireNouvelEmploye>
+      <div class="col-md-6">
+        <label class="form-label">Prénom</label>
+        <input class="form-control" type="text">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nom</label>
+        <input class="form-control" type="text">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Role</label>
+        <select class="form-select">
+          <option selected>Séléctionner le rôle</option>
+          <option value="1">Adjoint</option>
+          <option value="2">Gérant</option>
+          <option value="3">Employé</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Taux horaire</label>
+        <input class="form-control" type="number">
+      </div>
+      <hr>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success btn-lg mx-2">Ajouter</button>
+        <button (click)="gestionEmploye.formulaireAffiche = false" class="btn btn-danger btn-lg mx-2">Annuler</button>
+      </div>
+    </form>
+  </div>
+</main>

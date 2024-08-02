@@ -1,0 +1,29 @@
+<main>
+  <div [class.blurred]="formulaireAffiche">
+    <div style="width: 40%" class="table-responsive p-4 mx-auto">
+      <table class="table text-center align-middle table-striped table-bordered">
+        <thead>
+        <tr>
+          <th style="width: 40%" scope="col">Nom</th>
+          <th scope="col">Rôle</th>
+          <th style="width: 40%" scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let employe of employes">
+          <td>{{employe.prenom}} {{employe.nom}}</td>
+          <td>{{getRole(employe.role.toString())}}</td>
+          <td class="d-flex justify-content-center">
+            <a class="btn btn-primary mx-2">Feuille de temps</a>
+            <a class="btn btn-danger mx-2">Horaire</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="authentificationService.getLoginJwtClaim('role') === 'ADJOINT'" class="text-center">
+      <button (click)="formulaireAffiche = true" class="btn btn-success btn-lg">Ajouter un nouvel employé</button>
+    </div>
+  </div>
+  <app-formulaire-nouvel-employe [gestionEmploye]="this" *ngIf="formulaireAffiche"></app-formulaire-nouvel-employe>
+</main>

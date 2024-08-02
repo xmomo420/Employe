@@ -1,0 +1,41 @@
+<main>
+  <div style="width: 75%" class="table-responsive p-4 mx-auto">
+    <table class="table text-center align-middle table-striped table-bordered">
+      <thead>
+        <tr>
+          <th style="width: 10%" scope="col"></th>
+          <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
+            {{joursSemaine[jour]}}, le {{formatterDate(getDateByJourSemaine(jour))}}
+          </td>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr>
+          <th class="text-start" scope="row">Heure de début</th>
+          <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
+            {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.heureDebut)}}
+          </td>
+        </tr>
+        <tr>
+          <th class="text-start" scope="row">Début de repas</th>
+          <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
+            {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.debutRepas)}}
+          </td>
+        </tr>
+        <tr>
+          <th class="text-start" scope="row">Fin de repas</th>
+          <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
+            {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.finRepas)}}
+          </td>
+        </tr>
+        <tr>
+          <th class="text-start" scope="row">Heure de fin</th>
+          <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
+            {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.heureFin)}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div><span class="fw-bold">Nombre total d'heures : </span>{{calculerNombreHeuresTotal()}}</div>
+  </div>
+</main>

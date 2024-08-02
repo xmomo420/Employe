@@ -1,0 +1,15 @@
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #373535;
+  border-radius: 50%;
+  position: relative;
+  top: 0;
+  scale: 0.7;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  transform: scale(1.2);
+}
+
+

@@ -1,1 +1,40 @@
-<p>navbar works!</p>
+<main>
+  <nav class="navbar navbar navbar-expand-lg sticky-top background-navbar mb-3">
+    <div class="container-fluid">
+      <a routerLink="" class="navbar-brand ms-1 zoom-on-hover text-white border-white border-end px-3">Accueil</a>
+      <ul class="navbar-nav me-auto">
+        <!-- Pour tous les types d'employés -->
+        <li *ngIf="authentificationService.estAuthentifie" class="nav-item">
+          <a routerLink="horaire" class="nav-link zoom-on-hover text-white">
+            Horaire
+          </a>
+        </li>
+        <li *ngIf="authentificationService.estAuthentifie" class="nav-item">
+          <a routerLink="feuille-de-temps" class="nav-link zoom-on-hover text-white">
+            Feuille de temps
+          </a>
+        </li>
+        <!-- Pour les adjoints et gérants -->
+        <li *ngIf="authentificationService.estAuthentifie && estGerantOuAdjoint()" class="nav-item">
+          <a routerLink="gestion-employes" class="nav-link zoom-on-hover text-white">
+            Gestion d'employés
+          </a>
+        </li>
+      </ul>
+      <!-- Éléments justifié à droite -->
+      <ul class="navbar-nav ms-auto">
+        <li *ngIf="!authentificationService.estAuthentifie" class="nav-item mx-1">
+          <a routerLink="login" class="nav-link btn bg-success text-white zoom-on-hover">
+            Connexion
+          </a>
+        </li>
+        <li *ngIf="authentificationService.estAuthentifie" class="nav-item mx-1">
+          <button (click)="authentificationService.deconnecter()" class="nav-link btn bg-danger text-white zoom-on-hover">
+            Déconnexion
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</main>
+

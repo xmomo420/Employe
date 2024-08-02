@@ -32,10 +32,11 @@ public class WebSecrityConfig {
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return (request, response, authentication) -> {
             Employe employeAuthentifie = ((Employe) authentication.getPrincipal());
-            String jwt = jwtService.genererJwt(
+            String jwt = jwtService.genererJwtLogin(
                     employeAuthentifie.getId().toString(),
-                    employeAuthentifie.getNomUtilisateur(),
-                    request.getParameter("password")
+                    employeAuthentifie.getPrenom() + " " + employeAuthentifie.getNom(),
+                    employeAuthentifie.getRole().name(),
+                    employeAuthentifie.getDateEmbauche()
             );
             response.setStatus(200);
             response.getWriter().write(jwt);
@@ -49,16 +50,6 @@ public class WebSecrityConfig {
             //response.getWriter().write(exception.getLocalizedMessage());
         };
     }
-
-    /*
-    @Bean
-    public AuthenticationEntryPoint authenticationEntryPoint() {
-        return (request, response, exception) -> {
-            System.out.println("Entry point");
-            response.setStatus(400);
-            response.getWriter().write(exception.getLocalizedMessage());
-        };
-    }*/
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
@@ -85,6 +76,7 @@ public class WebSecrityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/inscription").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/auth/authentifie").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
