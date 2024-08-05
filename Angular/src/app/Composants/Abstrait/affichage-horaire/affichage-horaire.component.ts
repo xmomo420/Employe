@@ -1,6 +1,8 @@
 import {Component, Input} from '@angular/core';
 import { Horaire } from '../../../Model/horaire';
 import {Quart} from "../../../Model/Quart";
+import {HoraireComponent} from "../../horaire/horaire.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-affichage-horaire',
@@ -12,8 +14,9 @@ export class AffichageHoraireComponent {
   @Input() _horaire: Horaire | null = null;
   @Input() _dateDebut: Date | undefined;
   protected readonly Quart = Quart;
+  protected afficherInputsModifications: boolean = false;
 
-  constructor() {  }
+  constructor(private readonly router: Router) { }
 
   get horaire(): Horaire | null {
     return this._horaire;
@@ -122,6 +125,20 @@ export class AffichageHoraireComponent {
       return date.toLocaleDateString() === new Date().toLocaleDateString();
     }
     return false;
+  }
+
+  protected datesModificationsPossibles(): boolean {
+    if (this.router.url.includes("feuilleDeTemps")) {
+      return true;
+    }
+    const dateDansDeuxJours = new Date();
+    dateDansDeuxJours.setDate(dateDansDeuxJours.getDate() + 2);
+    return dateDansDeuxJours <= this.dateDebut;
+  }
+
+  public routeModificationHoraireValide(): boolean {
+    const route = this.router.url;
+    return route.startsWith("/gestion-employes");
   }
 
 }

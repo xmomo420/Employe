@@ -5,24 +5,28 @@
     <form class="row g-3 mb-3" #formulaireNouvelEmploye>
       <div class="col-md-6">
         <label class="form-label">Prénom</label>
-        <input class="form-control" type="text">
+        <input name="prenom" class="form-control" type="text">
+        <div class="invalid-feedback"></div>
       </div>
       <div class="col-md-6">
         <label class="form-label">Nom</label>
-        <input class="form-control" type="text">
+        <input name="nom" class="form-control" type="text">
+        <div class="invalid-feedback"></div>
       </div>
       <div class="col-md-6">
         <label class="form-label">Role</label>
-        <select class="form-select">
+        <select name="role" class="form-select">
           <option selected>Séléctionner le rôle</option>
           <option value="1">Adjoint</option>
           <option value="2">Gérant</option>
           <option value="3">Employé</option>
         </select>
+        <div class="invalid-feedback"></div>
       </div>
       <div class="col-md-6 mb-3">
         <label class="form-label">Taux horaire</label>
-        <input class="form-control" type="number">
+        <input name="tauxHoraire" class="form-control" type="number">
+        <div class="invalid-feedback"></div>
       </div>
       <hr>
       <div class="d-flex justify-content-center">

@@ -5,6 +5,7 @@ import com.employe.Models.Employe.Role;
 import com.employe.Models.HoraireQuotidien;
 import com.employe.Repositories.EmployeRepository;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +70,22 @@ public class EmployeController {
         employeAssigne.setSuperviseur(AggregateReference.to(idSuperviseur));
         employeRepository.save(employeAssigne);
         return ResponseEntity.ok().body(employeAssigne);
+    }
+
+    @GetMapping("/{idEmploye}")
+    public ResponseEntity<String> getRenseignementsEmployes(
+            @PathVariable Integer idEmploye,
+            @AuthenticationPrincipal Employe employe
+    ) {
+        // TODO : Vérifier les permissions
+        Employe employeConsulte = employeRepository.findById(idEmploye).orElse(null);
+        if (employeConsulte == null) {
+            return ResponseEntity.notFound().build();
+        }
+        JSONObject reponse = new JSONObject();
+        reponse.put("nomComplet", employeConsulte.getPrenom() + " " + employeConsulte.getNom());
+        reponse.put("dateEmbauche", employeConsulte.getDateEmbauche());
+        return ResponseEntity.ok().body(reponse.toString());
     }
 
 

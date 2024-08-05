@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Employe} from "../Model/Employe";
 import {Role} from "../Model/Role";
 
@@ -12,12 +12,11 @@ export class EmployeService {
 
   constructor() { }
 
-  public async getEmployesCharge(idSuperviseur: string) : Promise<Employe[]> {
+  public async getEmployesCharge() : Promise<Employe[]> {
     const employes = new Array<Employe>();
     const reponseServeur = await fetch(this.URI_EMPLOYE); // Get par défaut
     try {
       const resultatRequete = await reponseServeur.json();
-      console.log(resultatRequete);
       resultatRequete.forEach((employe: any) => employes.push(Employe.jsonToEmploye(employe)));
       return employes;
     } catch (error) {
@@ -36,5 +35,10 @@ export class EmployeService {
       body: formData
     });
     return reponseServeur.status === 201;
+  }
+
+  public async getEmploye(id: string) : Promise<any> {
+    const reponseServeur = await fetch(this.URI_EMPLOYE + "/" + id);
+    return await reponseServeur.json();
   }
 }

@@ -41,14 +41,10 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
   }
 
   public async chargerEmployes() {
-    const idSuperviseur = this.authentificationService.getLoginJwtClaim("idEmploye");
-    if (idSuperviseur) {
-      this.employes = await this.employeService.getEmployesCharge(idSuperviseur);
-    }
+    this.employes = await this.employeService.getEmployesCharge();
   }
 
   public getRole(role: string) : string {
-    console.log(role);
     switch (role) {
       case "ASSOCIE":
         return "Associé";
@@ -59,5 +55,9 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
       default:
         return "Erreur";
     }
+  }
+
+  public async getInfosEmploye(id: string) {
+
   }
 }

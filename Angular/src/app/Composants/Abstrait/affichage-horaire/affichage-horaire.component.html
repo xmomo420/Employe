@@ -14,28 +14,50 @@
           <th class="text-start" scope="row">Heure de début</th>
           <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
             {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.heureDebut)}}
+            <div *ngIf="afficherInputsModifications">
+              <input type="time">
+              <div></div>
+            </div>
           </td>
         </tr>
         <tr>
           <th class="text-start" scope="row">Début de repas</th>
           <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
             {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.debutRepas)}}
+            <div *ngIf="afficherInputsModifications">
+              <input type="time">
+              <div></div>
+            </div>
           </td>
         </tr>
         <tr>
           <th class="text-start" scope="row">Fin de repas</th>
           <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
             {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.finRepas)}}
+            <div *ngIf="afficherInputsModifications">
+              <input type="time">
+              <div></div>
+            </div>
           </td>
         </tr>
         <tr>
           <th class="text-start" scope="row">Heure de fin</th>
           <td [class.table-info]="estDateAujourdhui(getDateByJourSemaine(jour))" *ngFor="let jour of getJoursSemaineKeys()">
             {{Quart.formatterHeure(horaire?.getQuartByJour(jour)?.heureFin)}}
+            <div *ngIf="afficherInputsModifications">
+              <input type="time">
+              <div></div>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
     <div><span class="fw-bold">Nombre total d'heures : </span>{{calculerNombreHeuresTotal()}}</div>
+  </div>
+  <div *ngIf="routeModificationHoraireValide() && !afficherInputsModifications" class="text-center">
+    <button [disabled]="!datesModificationsPossibles()" (click)="afficherInputsModifications = true" class="btn btn-lg btn-success">Modifier</button>
+  </div>
+  <div *ngIf="afficherInputsModifications" class="text-center">
+    <button class="btn btn-lg btn-success">Confirmer</button>
   </div>
 </main>

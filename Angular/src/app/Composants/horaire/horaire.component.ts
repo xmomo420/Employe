@@ -69,7 +69,8 @@ export class HoraireComponent extends VerifierAuthentificationComponent implemen
     const dateActuelle = new Date(this._datesDebut.at(this.indiceDate));
     const lundiAvant = new Date(dateActuelle);
     lundiAvant.setDate(dateActuelle.getDate() - 7);
-    return lundiAvant.getTime() < this.dateEmbauche.getTime();
+    return lundiAvant.getTime() < this.dateEmbauche.getTime()
+      && new Date(lundiAvant.toLocaleDateString()) < new Date(HoraireComponent.dateLundiDernier().toLocaleDateString());
   }
 
   public horaireSuivant(): void {
@@ -136,6 +137,5 @@ export class HoraireComponent extends VerifierAuthentificationComponent implemen
       this._datesDebut.push(new Date(dateDebut));
     }
   }
-
 
 }

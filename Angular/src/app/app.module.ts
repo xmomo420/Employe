@@ -17,6 +17,7 @@ import { AffichageHoraireComponent } from './Composants/Abstrait/affichage-horai
 import { HoraireEmployeConnecteComponent } from './Composants/horaire-employe-connecte/horaire-employe-connecte.component';
 import { AffichageEmployeComponent } from './Composants/affichage-employe/affichage-employe.component';
 import { FormulaireNouvelEmployeComponent } from './Composants/formulaire-nouvel-employe/formulaire-nouvel-employe.component';
+import { HoraireEmployeGestionComponent } from './Composants/horaire-employe-gestion/horaire-employe-gestion.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FormulaireNouvelEmployeComponent } from './Composants/formulaire-nouvel
     HoraireEmployeConnecteComponent,
     AffichageEmployeComponent,
     FormulaireNouvelEmployeComponent,
+    HoraireEmployeGestionComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,13 +7,15 @@ import {GestionEmployesComponent} from "./Composants/gestion-employes/gestion-em
 import {
   HoraireEmployeConnecteComponent
 } from "./Composants/horaire-employe-connecte/horaire-employe-connecte.component";
+import {HoraireEmployeGestionComponent} from "./Composants/horaire-employe-gestion/horaire-employe-gestion.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', component: HomeComponent },
   { path: 'gestion-employes', component: GestionEmployesComponent },
   { path: 'feuille-de-temps', component: FeuilleDeTempsEmployeConnecteComponent },
-  { path: 'horaire', component: HoraireEmployeConnecteComponent }
+  { path: 'horaire', component: HoraireEmployeConnecteComponent },
+  { path: 'gestion-employes/employe', component: HoraireEmployeGestionComponent }
 ];
 
 @NgModule({
