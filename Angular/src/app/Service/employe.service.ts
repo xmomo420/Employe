@@ -72,7 +72,6 @@ export class EmployeService {
         method: "PUT",
         body: formData
       });
-    console.log(reponseServeur);
     return reponseServeur.status === 200;
   }
 }

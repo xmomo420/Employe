@@ -4,6 +4,15 @@
     <hr>
     <h5 class="text-start">Profil</h5>
     <hr>
+    <div *ngIf="messageFormulaireSoumisAffiche" style="width: 50%"
+         [class.alert-success]="messageFormulaireSoumis.length === 43"
+         [class.alert-danger]="messageFormulaireSoumis.length === 52"
+         class="text-center mx-auto alert alert-dismissible fade show" role="alert">
+      <strong>{{messageFormulaireSoumis}}</strong>
+      <button (click)="cacherMessageFormulaireSoumis()" type="button" class="btn-close"
+              data-bs-dismiss="alert" aria-label="Close">
+      </button>
+    </div>
     <form #formulaire=ngForm (ngSubmit)="soumettreFormulaire()" class="row g-3">
       <div class="col-md-6 text-start">
         <label class="form-label">Date d'embauche</label>
@@ -35,9 +44,12 @@
       </div>
     </form>
     <hr>
-    <div>
-      <button type="submit" (click)="formulaireActif ? soumettreFormulaire() : activerFormulaire()" class="btn btn-success" [disabled]="formulaireActif && !estNasValide()">
+    <div class="d-flex justify-content-center">
+      <button type="submit" (click)="formulaireActif ? soumettreFormulaire() : activerFormulaire()" class="btn btn-success mx-2" [disabled]="formulaireActif && !estNasValide()">
         {{formulaireActif ? "Confirmer les changements" : "Mettre à jour"}}
+      </button>
+      <button *ngIf="formulaireActif" class="btn btn-danger mx-2" (click)="desactiverFormulaire()">
+        Annuler
       </button>
     </div>
 

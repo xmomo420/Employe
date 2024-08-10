@@ -1,12 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {VerifierAuthentificationComponent} from "../verifier-authentification.component";
 import {AuthentificationService} from "../../Service/authentification.service";
 import {Router} from "@angular/router";
 import {EmployeService} from "../../Service/employe.service";
 import {DateUtils} from "../../Utils/date-utils";
-import {Role} from "../../Model/Role";
 import {RoleUtils} from "../../Utils/RoleUtils";
-import {NgModel} from "@angular/forms";
 
 @Component({
   selector: 'app-home',
@@ -25,9 +23,13 @@ export class HomeComponent extends VerifierAuthentificationComponent implements 
   private _nombreHeuresTravaillees?: number;
 
   private _formulaireActif: boolean = false;
+  protected messageFormulaireSoumisAffiche: boolean = false;
   protected nasFormulaire!: string;
+  protected messageFormulaireSoumis: string = "";
 
   protected readonly MESSAGE_NAS_INVALIDE = "Le numéro d'assurance sociale doit être composé de 9 chiffres";
+  protected readonly MESSAGE_NAS_MODIFIE = "Le numéro d'assurance sociale a été modifié";
+  protected readonly MESSAGE_ERREUR_MODIFICATION_NAS = "Une erreur est survenue lors de la modification du NAS";
 
   constructor(
       private readonly employeService: EmployeService,
@@ -81,8 +83,18 @@ export class HomeComponent extends VerifierAuthentificationComponent implements 
     this.formulaireActif = false;
   }
 
+  protected afficherMessageFormulaireSoumis(message: string) {
+    this.messageFormulaireSoumis = message;
+    this.messageFormulaireSoumisAffiche = true;
+  }
+
+  protected cacherMessageFormulaireSoumis() {
+    this.messageFormulaireSoumisAffiche = false;
+  }
+
   protected async soumettreFormulaire() : Promise<void> {
-    await this.employeService.modiferNas(this.idEmploye!, this.nasFormulaire);
+    const resultatSoumission = await this.employeService.modiferNas(this.idEmploye!, this.nasFormulaire);
+    this.afficherMessageFormulaireSoumis(resultatSoumission ? this.MESSAGE_NAS_MODIFIE : this.MESSAGE_ERREUR_MODIFICATION_NAS);
     this.desactiverFormulaire();
   }
 
