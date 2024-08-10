@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {HoraireService} from "../../Service/horaire.service";
 import {Horaire} from "../../Model/horaire";
 import {AffichageHoraireComponent} from "../Abstrait/affichage-horaire/affichage-horaire.component";
+import {DateUtils} from "../../Utils/date-utils";
 
 @Component({
   selector: 'app-horaire',
@@ -20,6 +21,9 @@ export class HoraireComponent extends VerifierAuthentificationComponent implemen
   @Input() nomEmploye: string = "{{ nomEmploye }}";
   @Input() idEmploye: string = "-1";
   @Input() dateEmbauche: Date = new Date();
+  protected readonly DateUtils = DateUtils;
+  // Pour la modification de l'horaire
+  protected boutonsDesactives: boolean = false;
 
   constructor(
     router: Router,
@@ -31,7 +35,8 @@ export class HoraireComponent extends VerifierAuthentificationComponent implemen
     super(router, authentificationService, true);
     const dateEmbaucheJwt = this.authentificationService.getLoginJwtClaim("dateEmbauche");
     if (dateEmbaucheJwt !== null) {
-      this.dateEmbauche = new Date(dateEmbaucheJwt);
+      const dateAvecTemps = dateEmbaucheJwt + "T00:00:00";
+      this.dateEmbauche = new Date(dateAvecTemps);
     }
     this.chargerDatesDebut();
     this._indiceDate = this._datesDebut.length - 3;
@@ -100,7 +105,7 @@ export class HoraireComponent extends VerifierAuthentificationComponent implemen
     const horaire = await this.horaireService.getHoraireByDateDebut(
       this.idEmploye,
       this.typeHoraire,
-      <Date>this._datesDebut.at(this.indiceDate)
+      this._datesDebut[this.indiceDate]
     );
     this._horaire = horaire !== null ? horaire : null;
   }
@@ -136,6 +141,14 @@ export class HoraireComponent extends VerifierAuthentificationComponent implemen
       dateDebut.setDate(dateDebut.getDate() + 7);
       this._datesDebut.push(new Date(dateDebut));
     }
+  }
+
+  public reactiverBoutons(): void {
+    this.boutonsDesactives = false;
+  }
+
+  public desactiverBoutons(): void {
+    this.boutonsDesactives = true;
   }
 
 }

@@ -1,16 +1,16 @@
 import {Quart} from "./Quart";
 
 export class Horaire {
-  private id?: number;
+  private _id?: number;
   private _quartsTravail: Quart[];
-  private employe: number;
-  dateDebut: Date;
+  private _employe: number;
+  private _dateDebut: Date;
 
   constructor(quartsTravail: Quart[], employe: number, dateDebut: Date, id?: number) {
-    this.id = id;
+    this._id = id;
     this._quartsTravail = quartsTravail;
-    this.employe = employe;
-    this.dateDebut = dateDebut;
+    this._employe = employe;
+    this._dateDebut = dateDebut;
   }
 
   public static jsonToHoraire(jsonObject: any) : Horaire {
@@ -22,9 +22,41 @@ export class Horaire {
     return new Horaire(
       quartsTravail,
       jsonObject.employe.id,
-      new Date(dateAvecTemp),
-      jsonObject.id !== null ? jsonObject.id : undefined
+      new Date(dateAvecTemp)
     );
+  }
+
+  set employe(value: number) {
+    this._employe = value;
+  }
+
+  set dateDebut(value: Date) {
+    this._dateDebut = value;
+  }
+
+  public ajouterQuart(quart: Quart) {
+    this.quartsTravail.push(quart);
+  }
+
+  public supprimerQuart(dateDuQuart: Date) {
+    const indexQuart = this.quartsTravail.findIndex(
+      quart => quart.date.toLocaleDateString() === dateDuQuart.toLocaleDateString()
+    );
+    if (indexQuart !== -1) {
+      this.quartsTravail.splice(indexQuart, 1);
+    }
+  }
+
+  get id(): number | undefined {
+    return this._id;
+  }
+
+  get employe(): number {
+    return this._employe;
+  }
+
+  get dateDebut(): Date {
+    return this._dateDebut;
   }
 
   get quartsTravail(): Quart[] {

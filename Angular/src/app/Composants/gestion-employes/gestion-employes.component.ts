@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentInit, Component, OnInit, ViewChild} from '@angular/core';
 import {VerifierAuthentificationComponent} from "../verifier-authentification.component";
 import {Router} from "@angular/router";
 import {AuthentificationService} from "../../Service/authentification.service";
 import {Employe} from "../../Model/Employe";
 import {EmployeService} from "../../Service/employe.service";
+import {AssignationSuperviseurComponent} from "../assignation-superviseur/assignation-superviseur.component";
 import {Role} from "../../Model/Role";
 
 @Component({
@@ -11,17 +12,47 @@ import {Role} from "../../Model/Role";
   templateUrl: './gestion-employes.component.html',
   styleUrl: './gestion-employes.component.css'
 })
-export class GestionEmployesComponent extends VerifierAuthentificationComponent implements OnInit {
+export class GestionEmployesComponent extends VerifierAuthentificationComponent implements AfterContentInit {
 
+  // Pour ajouter un nouvel employé
   private _employes: Employe[] = [];
-  private _formulaireAffiche: boolean = false;
+  private _formulaireNouvelEmployeAffiche: boolean = false;
+  protected nouvelEmployeAjoute: boolean = false;
+  // Pour l'affectation à un superviseur
+  private _formulaireAssignationSuperviseurAffiche: boolean = false;
+  protected superviseurAssigne: boolean = false;
+  protected _nomCompletEmploye: string = "";
+  private _idEmploye: number = 0;
 
-  get formulaireAffiche(): boolean {
-    return this._formulaireAffiche;
+  protected readonly MESSAGE_EMPLOYE_AJOUTE = "L'employé a été ajouté avec succès";
+  protected readonly MESSAGE_SUPERVISEUR_ASSIGNE = "Le superviseur a été assigné avec succès";
+
+  get nomCompletEmploye(): string {
+    return this._nomCompletEmploye;
   }
 
-  set formulaireAffiche(value: boolean) {
-    this._formulaireAffiche = value;
+  set nomCompletEmploye(value: string) {
+    this._nomCompletEmploye = value;
+  }
+
+  get idEmploye(): number {
+    return this._idEmploye;
+  }
+
+  set idEmploye(value: number) {
+    this._idEmploye = value;
+  }
+
+  get formulaireAssignationSuperviseurAffiche(): boolean {
+    return this._formulaireAssignationSuperviseurAffiche;
+  }
+
+  get formulaireNouvelEmployeAffiche(): boolean {
+    return this._formulaireNouvelEmployeAffiche;
+  }
+
+  set formulaireNouvelEmployeAffiche(value: boolean) {
+    this._formulaireNouvelEmployeAffiche = value;
   }
 
   get employes(): Employe[] {
@@ -36,7 +67,7 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
     super(router, authentificationService);
   }
 
-  async ngOnInit(): Promise<void> {
+  async ngAfterContentInit(): Promise<void> {
     await this.chargerEmployes();
   }
 
@@ -57,7 +88,49 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
     }
   }
 
-  public async getInfosEmploye(id: string) {
+  public afficherMessageNouvelEmployeAjoute() {
+    this.nouvelEmployeAjoute = true;
+  }
 
+  public afficherMessageSuperviseurAssigne() {
+    this.superviseurAssigne = true;
+  }
+
+  public cacherMessageNouvelEmployeAjoute() {
+    this.nouvelEmployeAjoute = false;
+  }
+
+  public cacherMessageSuperviseurAssigne() {
+    this.superviseurAssigne = false;
+  }
+
+  public afficherFormulaireNouvelEmploye() {
+    this.cacherMessageNouvelEmployeAjoute();
+    this.cacherMessageSuperviseurAssigne();
+    this.formulaireNouvelEmployeAffiche = true;
+  }
+
+  public cacherFormulaireNouvelEmploye() {
+    this.formulaireNouvelEmployeAffiche = false;
+  }
+
+  public cacherFormulaireAssignationSuperviseur() {
+    this._formulaireAssignationSuperviseurAffiche = false;
+  }
+
+  public afficherFormulaireAssignationSuperviseur(employe: Employe) {
+    this.cacherMessageNouvelEmployeAjoute();
+    this.cacherMessageSuperviseurAssigne();
+    this.idEmploye = employe.id ?? this.idEmploye;
+    this.nomCompletEmploye = employe.prenom + " " + employe.nom;
+    this._formulaireAssignationSuperviseurAffiche = true;
+  }
+
+  protected estAdjointConnecte(): boolean {
+    return this.authentificationService.getLoginJwtClaim("role") === "ADJOINT";
+  }
+
+  public peutAssignerSuperviseur(employe: Employe) : boolean {
+    return employe.role !== Role.GERANT;
   }
 }

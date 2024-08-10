@@ -1,8 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild, ElementRef, EventEmitter, Output, Inject} from '@angular/core';
 import { Horaire } from '../../../Model/horaire';
 import {Quart} from "../../../Model/Quart";
+import {ActivatedRoute, Router} from "@angular/router";
+import {HoraireService} from "../../../Service/horaire.service";
+import {DateUtils} from "../../../Utils/date-utils";
 import {HoraireComponent} from "../../horaire/horaire.component";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-affichage-horaire',
@@ -13,10 +15,18 @@ export class AffichageHoraireComponent {
 
   @Input() _horaire: Horaire | null = null;
   @Input() _dateDebut: Date | undefined;
+  @Input() referenceHoraire!: HoraireComponent
   protected readonly Quart = Quart;
-  protected afficherInputsModifications: boolean = false;
+  public formulaireHoraireAffiche: boolean = false;
+  protected messageHoraireModifieAffiche: boolean = false;
+  protected readonly DateUtils = DateUtils;
 
-  constructor(private readonly router: Router) { }
+  protected readonly MESSAGE_HORAIRE_MODIFIE = "L'horaire a été modifié avec succès";
+
+  constructor(
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
+  ) { }
 
   get horaire(): Horaire | null {
     return this._horaire;
@@ -28,70 +38,6 @@ export class AffichageHoraireComponent {
 
   get dateDebut(): Date {
     return <Date>this._dateDebut;
-  }
-
-  set dateDebut(value: Date) {
-    this._dateDebut = value;
-  }
-
-  public joursSemaine: { [key: string]: string } = {
-    0: "Lundi",
-    1: "Mardi",
-    2: "Mercredi",
-    3: "Jeudi",
-    4: "Vendredi",
-    5: "Samedi",
-    6: "Dimanche"
-  };
-
-  public getDateByJourSemaine(jourSemaine: number): Date {
-    const nouvelleDate = new Date(this.dateDebut);
-    nouvelleDate.setDate(nouvelleDate.getDate() + jourSemaine);
-    return nouvelleDate;
-  }
-
-  public getJoursSemaineKeys(): number[] {
-    return Object.keys(this.joursSemaine).map(Number);
-  }
-
-  private moisToString(mois: number): string {
-    switch (mois) {
-      case 0:
-        return "janvier";
-      case 1:
-        return "février";
-      case 2:
-        return "mars";
-      case 3:
-        return "avril";
-      case 4:
-        return "mai";
-      case 5:
-        return "juin";
-      case 6:
-        return "juillet";
-      case 7:
-        return "août";
-      case 8:
-        return "septembre";
-      case 9:
-        return "octobre";
-      case 10:
-        return "novembre";
-      case 11:
-        return "décembre";
-      default:
-        return "";
-    }
-  }
-
-  public formatterDate(date?: Date): string {
-    // TODO : Fonction qui affiche les dates dans un format plus lisible, ex : 28 janvier
-    if (date) {
-      const dateParam = new Date(date);
-      return dateParam.getDate() + " " + this.moisToString(dateParam.getMonth());
-    }
-    return "";
   }
 
   private calculerTempsDiner(debutRepas: Date | undefined, finRepas: Date | undefined) : number {
@@ -138,7 +84,28 @@ export class AffichageHoraireComponent {
 
   public routeModificationHoraireValide(): boolean {
     const route = this.router.url;
-    return route.startsWith("/gestion-employes");
+    // TODO : À modifier dans le futur pour donner la possibilité aux adjoints de modifier les feuille de temps des employés
+    const typeHoraire = this.route.snapshot.queryParams['type-horaire'];
+    return route.startsWith("/gestion-employes") && typeHoraire === "horaireQuotidien";
+  }
+
+  protected cacherMessageHoraireModifie() {
+    this.messageHoraireModifieAffiche = false;
+  }
+
+  public afficherMessageHoraireModifie() {
+    this.messageHoraireModifieAffiche = true;
+  }
+
+  protected afficherFormulaire() {
+    this.formulaireHoraireAffiche = true;
+    this.cacherMessageHoraireModifie();
+    this.referenceHoraire.desactiverBoutons();
+  }
+
+  public cacherFormulaire() {
+    this.formulaireHoraireAffiche = false;
+    this.referenceHoraire.reactiverBoutons();
   }
 
 }

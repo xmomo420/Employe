@@ -1,6 +1,7 @@
-/* Pour floutter l'arrière plan */
-.blurred {
-  filter: blur(10px);
+a[aria-disabled="true"] {
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.5; /* Réduire l'opacité pour simuler un état désactivé */
 }
 
 

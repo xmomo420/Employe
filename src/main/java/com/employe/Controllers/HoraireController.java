@@ -8,6 +8,7 @@ import com.employe.Models.Requetes.RequeteNouvelHoraire;
 import com.employe.Repositories.EmployeRepository;
 import com.employe.Repositories.FeuilleDeTempsRepository;
 import com.employe.Repositories.HoraireRepository;
+import com.employe.Repositories.QuartRepository;
 import com.employe.Services.HoraireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
@@ -17,13 +18,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/horaire")
@@ -34,6 +30,7 @@ public class HoraireController {
     private final HoraireRepository horaireRepository;
     private final FeuilleDeTempsRepository feuilleDeTempsRepository;
     private final HoraireService horaireService;
+    private final QuartRepository quartRepository;
 
     @GetMapping("/{idEmploye}/{typeHoraire}/{dateDebut}")
     public ResponseEntity<Horaire> horaireParDate(
@@ -55,8 +52,8 @@ public class HoraireController {
     }
 
     private boolean estAuthorise(Integer idEmploye, Employe employe) {
-        return Objects.equals(employe.getId(), idEmploye) ||
-                employeRepository.findAllBySuperviseur(AggregateReference.to(employe.getId()))
+        return Objects.equals(employe.getId(), idEmploye) || employe.getRole().equals(Employe.Role.ADJOINT)
+                || employeRepository.findAllBySuperviseur(AggregateReference.to(employe.getId()))
                         .stream().anyMatch(employes -> Objects.equals(employe.getId(), idEmploye));
     }
 
@@ -81,5 +78,52 @@ public class HoraireController {
             }
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{idEmploye}/{dateDebut}/{typeHoraire}")
+    public ResponseEntity<Boolean> supprimerHoraire(
+            @PathVariable Integer idEmploye,
+            @PathVariable LocalDate dateDebut,
+            @PathVariable String typeHoraire,
+            @AuthenticationPrincipal Employe employe) {
+        if (!estAuthorise(idEmploye, employe)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        if (typeHoraire.equals("horaireQuotidien")) {
+            HoraireQuotidien horaire = horaireRepository.findByEmployeAndDateDebut(
+                    AggregateReference.to(idEmploye), dateDebut).orElse(null
+            );
+            if (horaire == null) {
+                return ResponseEntity.notFound().build();
+            }
+            try {
+                quartRepository.deleteAllByHoraireQuotidienOrFeuilleDeTemps(
+                        AggregateReference.to(horaire.getId()), null
+                );
+                horaireRepository.deleteById(horaire.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.internalServerError().build();
+            }
+        } else if (typeHoraire.equals("feuilleDeTemps")) {
+            FeuilleDeTemps feuilleDeTemps = feuilleDeTempsRepository.findByEmployeAndDateDebut(
+                    AggregateReference.to(idEmploye), dateDebut).orElse(null
+            );
+            if (feuilleDeTemps == null) {
+                return ResponseEntity.notFound().build();
+            }
+            try {
+                quartRepository.deleteAllByHoraireQuotidienOrFeuilleDeTemps(
+                        null, AggregateReference.to(feuilleDeTemps.getId())
+                );
+                feuilleDeTempsRepository.deleteById(feuilleDeTemps.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseEntity.internalServerError().build();
+            }
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().body(true);
     }
 }

@@ -41,4 +41,26 @@ export class EmployeService {
     const reponseServeur = await fetch(this.URI_EMPLOYE + "/" + id);
     return await reponseServeur.json();
   }
+
+  public async getSuperviseurs() : Promise<Employe[]> {
+    const superviseurs = new Array<Employe>();
+    const reponseServeur = await fetch(this.URI_EMPLOYE + "/superviseur");
+    try {
+      const resultatRequete = await reponseServeur.json();
+      resultatRequete.forEach((superviseur: any) => superviseurs.push(Employe.jsonToEmploye(superviseur)));
+      return superviseurs;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  public async assignerSuperviseur(idEmploye: string, idSuperviseur: string) : Promise<boolean> {
+    const formData = new FormData();
+    formData.append("idSuperviseur", idSuperviseur);
+    const reponseServeur = await fetch(this.URI_EMPLOYE + "/" + idEmploye + "/superviseur", {
+      method: "PATCH",
+      body: formData
+    });
+    return reponseServeur.status === 200;
+  }
 }

@@ -1,0 +1,22 @@
+<main>
+  <div style="width: 45%" class="foreground container card p-4 text-center">
+    <h2 class="mb-3">Assigner un superviseur à {{_nomComplet}}</h2>
+    <form #formulaireSuperviseur=ngForm (ngSubmit)="assignerSuperviseur()">
+      <div class="mb-3" role="alert" *ngIf="afficherErreur">
+        <h3 class="alert alert-danger text-center">{{MESSAGE_ERREUR}}</h3>
+      </div>
+      <select [(ngModel)]="idSuperviseur" class="form-select mb-3" [class.is-invalid]="!estSuperviseurValide() && formulaireSuperviseur.touched"
+              name="superviseur" required [class.is-valid]="estSuperviseurValide() && formulaireSuperviseur.touched">
+        <option [value]=-1 disabled selected>Choisir un superviseur</option>
+        <option *ngFor="let superviseur of listeSuperviseurs"
+                [value]="superviseur.id">{{superviseur.prenom}} {{superviseur.nom}}
+        </option>
+      </select>
+      <div class="text-start mb-3 invalid-feedback">{{MESSAGE_CHAMP_INVALIDE}}</div>
+      <div class="d-flex justify-content-center mb-3">
+        <button [disabled]="!estSuperviseurValide()" type="submit" class="btn btn-success btn-lg mx-2">Confirmer</button>
+        <button (click)="annulerFormulaire()" class="btn btn-danger btn-lg mx-2">Annuler</button>
+      </div>
+    </form>
+  </div>
+</main>

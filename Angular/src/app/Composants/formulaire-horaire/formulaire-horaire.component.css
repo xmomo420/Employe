@@ -1,0 +1,25 @@
+#iconePlus {
+  background: url("../../../../public/Icones/ajouter.png") no-repeat;
+  background-size: 100%;
+  background-position: center;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#iconePoubelle {
+  background: url("../../../../public/Icones/poubelle.png") no-repeat;
+  background-size: contain; /* Ajuste la taille de l'image pour qu'elle soit contenue dans l'élément */
+  background-position: center;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#iconePoubelle:hover {
+  cursor: pointer;
+}
+
+#iconePlus:hover {
+  cursor: pointer;
+}

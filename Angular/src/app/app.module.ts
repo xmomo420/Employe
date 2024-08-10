@@ -18,6 +18,9 @@ import { HoraireEmployeConnecteComponent } from './Composants/horaire-employe-co
 import { AffichageEmployeComponent } from './Composants/affichage-employe/affichage-employe.component';
 import { FormulaireNouvelEmployeComponent } from './Composants/formulaire-nouvel-employe/formulaire-nouvel-employe.component';
 import { HoraireEmployeGestionComponent } from './Composants/horaire-employe-gestion/horaire-employe-gestion.component';
+import { FormulaireQuartComponent } from './Composants/formulaire-quart/formulaire-quart.component';
+import { AssignationSuperviseurComponent } from './Composants/assignation-superviseur/assignation-superviseur.component';
+import { FormulaireHoraireComponent } from './Composants/formulaire-horaire/formulaire-horaire.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { HoraireEmployeGestionComponent } from './Composants/horaire-employe-ges
     AffichageEmployeComponent,
     FormulaireNouvelEmployeComponent,
     HoraireEmployeGestionComponent,
+    FormulaireQuartComponent,
+    AssignationSuperviseurComponent,
+    FormulaireHoraireComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +50,8 @@ import { HoraireEmployeGestionComponent } from './Composants/horaire-employe-ges
   providers: [
     provideClientHydration(),
     AuthentificationService,
-    AffichageHoraireComponent
+    AffichageHoraireComponent,
+    HoraireComponent,
   ],
   bootstrap: [AppComponent]
 })

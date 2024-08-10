@@ -76,4 +76,12 @@ public class Quart {
         }
         return lundiPrecedent;
     }
+
+    public double getDuree() {
+        if (heureDebut == null || heureFin == null) {
+            return 0;
+        }
+        double dureeRepas = debutRepas == null || finRepas == null ? 0 : debutRepas.until(finRepas, java.time.temporal.ChronoUnit.MINUTES) / 60.0;
+        return heureDebut.until(heureFin, java.time.temporal.ChronoUnit.MINUTES) / 60.0 - dureeRepas;
+    }
 }

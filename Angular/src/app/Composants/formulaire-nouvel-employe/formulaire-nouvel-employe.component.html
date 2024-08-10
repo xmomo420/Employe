@@ -2,36 +2,43 @@
   <div style="width: 45%" class="foreground container card p-4">
     <h2 class="text-center mb-3">Ajout d'un nouvel employé</h2>
     <hr>
-    <form class="row g-3 mb-3" #formulaireNouvelEmploye>
+    <form (ngSubmit)="soummettreFormulaire()" class="row g-3 mb-3" #formulaireNouvelEmploye=ngForm>
+      <div *ngIf="erreurServeur" role="alert">
+        <h4 class="alert alert-danger text-center">{{MESSAGE_ERREUR_SERVEUR}}</h4>
+      </div>
       <div class="col-md-6">
         <label class="form-label">Prénom</label>
-        <input name="prenom" class="form-control" type="text">
-        <div class="invalid-feedback"></div>
+        <input #prenom="ngModel" [class.is-valid]="estPrenomValide()" [class.is-invalid]="prenom.touched && !estPrenomValide()"
+               name="prenom" class="form-control" type="text" [(ngModel)]="_prenom">
+        <div class="invalid-feedback">{{MESSAGE_PRENOM_INVALIDE}}</div>
       </div>
       <div class="col-md-6">
         <label class="form-label">Nom</label>
-        <input name="nom" class="form-control" type="text">
-        <div class="invalid-feedback"></div>
+        <input #nom="ngModel" [class.is-valid]="estNomValide()" [class.is-invalid]="nom.touched && !estNomValide()"
+               name="nom" class="form-control" type="text" [(ngModel)]="_nom">
+        <div class="invalid-feedback">{{MESSAGE_NOM_INVALIDE}}</div>
       </div>
       <div class="col-md-6">
         <label class="form-label">Role</label>
-        <select name="role" class="form-select">
-          <option selected>Séléctionner le rôle</option>
-          <option value="1">Adjoint</option>
-          <option value="2">Gérant</option>
-          <option value="3">Employé</option>
+        <select [class.is-valid]="estRoleValide()" #role="ngModel" [class.is-invalid]="role.touched && !estRoleValide()"
+                name="role" class="form-select" [(ngModel)]="_role">
+          <option value="" selected>Séléctionner le rôle</option>
+          <option value="Adjoint">Adjoint</option>
+          <option value="Gérant">Gérant</option>
+          <option value="Associé">Associé</option>
         </select>
-        <div class="invalid-feedback"></div>
+        <div class="invalid-feedback">{{MESSAGE_ROLE_INVALIDE}}</div>
       </div>
       <div class="col-md-6 mb-3">
         <label class="form-label">Taux horaire</label>
-        <input name="tauxHoraire" class="form-control" type="number">
-        <div class="invalid-feedback"></div>
+        <input #tauxHoraire="ngModel" [class.is-valid]="estTauxHoraireValide()" [class.is-invalid]="tauxHoraire.touched && !estTauxHoraireValide()"
+               name="tauxHoraire" class="form-control" type="number" [(ngModel)]="_tauxHoraire">
+        <div class="invalid-feedback">{{MESSAGE_TAUX_HORAIRE_INVALIDE}}</div>
       </div>
       <hr>
       <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-success btn-lg mx-2">Ajouter</button>
-        <button (click)="gestionEmploye.formulaireAffiche = false" class="btn btn-danger btn-lg mx-2">Annuler</button>
+        <button [disabled]="!estFormulaireValide()" type="submit" class="btn btn-success btn-lg mx-2">Ajouter</button>
+        <button (click)="annuler()" class="btn btn-danger btn-lg mx-2">Annuler</button>
       </div>
     </form>
   </div>

@@ -1,6 +1,12 @@
 <main>
-  <div [class.blurred]="formulaireAffiche">
-    <div style="width: 40%" class="table-responsive p-4 mx-auto">
+  <div [class.blurred]="formulaireNouvelEmployeAffiche || formulaireAssignationSuperviseurAffiche">
+    <div style="width: 70%" class="table-responsive p-4 mx-auto">
+      <div role="alert" class="text-center container" *ngIf="nouvelEmployeAjoute">
+        <h4 class="alert alert-success alert">{{MESSAGE_EMPLOYE_AJOUTE}}</h4>
+      </div>
+      <div role="alert" class="text-center container" *ngIf="superviseurAssigne">
+        <h4 class="alert alert-success alert">{{MESSAGE_SUPERVISEUR_ASSIGNE}}</h4>
+      </div>
       <table class="table text-center align-middle table-striped table-bordered">
         <thead>
         <tr>
@@ -14,16 +20,33 @@
           <td>{{employe.prenom}} {{employe.nom}}</td>
           <td>{{getRole(employe.role.toString())}}</td>
           <td class="d-flex justify-content-center">
-            <a [routerLink]="['/gestion-employes/employe']" [queryParams]="{ id: employe.id, 'type-horaire': 'feuilleDeTemps' }" class="btn btn-primary mx-2">Feuille de temps</a>
-            <a [routerLink]="['/gestion-employes/employe']" [queryParams]="{ id: employe.id, 'type-horaire': 'horaireQuotidien' }" class="btn btn-danger mx-2">Horaire</a>
+            <a [attr.aria-disabled]="formulaireAssignationSuperviseurAffiche || formulaireNouvelEmployeAffiche"
+               [routerLink]="['/gestion-employes/employe']"
+               [queryParams]="{ id: employe.id, 'type-horaire': 'feuilleDeTemps' }"
+               class="btn btn-primary mx-2">
+              Feuille de temps
+            </a>
+            <a [attr.aria-disabled]="formulaireAssignationSuperviseurAffiche || formulaireNouvelEmployeAffiche"
+               [routerLink]="['/gestion-employes/employe']"
+               [queryParams]="{ id: employe.id, 'type-horaire': 'horaireQuotidien' }"
+               class="btn btn-danger mx-2">
+              Horaire
+            </a>
+            <a *ngIf="estAdjointConnecte()" [attr.aria-disabled]="!peutAssignerSuperviseur(employe) || formulaireAssignationSuperviseurAffiche || formulaireNouvelEmployeAffiche"
+               (click)="afficherFormulaireAssignationSuperviseur(employe)" class="btn btn-warning mx-2">
+              Assigner superviseur
+            </a>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
     <div *ngIf="authentificationService.getLoginJwtClaim('role') === 'ADJOINT'" class="text-center">
-      <button (click)="formulaireAffiche = true" class="btn btn-success btn-lg">Ajouter un nouvel employé</button>
+      <button [disabled]="formulaireAssignationSuperviseurAffiche || formulaireNouvelEmployeAffiche" (click)="afficherFormulaireNouvelEmploye()" class="btn btn-success btn-lg">Ajouter un nouvel employé</button>
     </div>
   </div>
-  <app-formulaire-nouvel-employe [gestionEmploye]="this" *ngIf="formulaireAffiche"></app-formulaire-nouvel-employe>
+  <app-assignation-superviseur *ngIf="formulaireAssignationSuperviseurAffiche"
+    [_nomComplet]="_nomCompletEmploye" [_idEmploye]="idEmploye" [referenceParent]="this">
+  </app-assignation-superviseur>
+  <app-formulaire-nouvel-employe [gestionEmploye]="this" *ngIf="formulaireNouvelEmployeAffiche"></app-formulaire-nouvel-employe>
 </main>

@@ -27,6 +27,7 @@ public class HoraireService {
             AggregateReference<Employe, Integer> employe,
             LocalDate dateDebut) {
         if (quartsTravail == null || dateDebut == null || !validerQuartsTravail(quartsTravail, dateDebut)) {
+            //System.out.println(quartsTravail);
             return Optional.empty();
         }
         HoraireQuotidien horaireAjoute = horaireRepository.findByEmployeAndDateDebut(employe, dateDebut).orElse(null);

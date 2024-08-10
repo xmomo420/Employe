@@ -1,5 +1,7 @@
 export enum Role {
-  ASSOCIE ,
-  GERANT,
-  ADJOINT
+  ASSOCIE="ASSOCIE" ,
+  GERANT="GERANT" ,
+  ADJOINT="ADJOINT"
 }
+
+

@@ -1,0 +1,62 @@
+<main>
+  <div [class.blurred]="formulaireQuartAffiche" class="foreground table-responsive container card p-4 mx-auto">
+    <div *ngIf="messageQuartAjouteOuSupprime || messageErreurAffiche" role="alert" class="m-3 text-center">
+      <h3 [class.alert-danger]="messageIndicationApproprie.length === 34 || messageErreurAffiche"
+          [class.alert-success]="messageIndicationApproprie.length === 32" class="alert">
+        {{messageIndicationApproprie}}
+      </h3>
+    </div>
+    <table class="table text-center align-middle table-striped table-bordered">
+      <thead>
+      <tr>
+        <th style="width: 10%"></th>
+        <th *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
+          {{DateUtils.joursSemaine[jour]}}, le {{DateUtils.formatterDate(DateUtils.getDateByJourSemaine(jour, this.dateDebut))}}
+        </th>
+      </tr>
+      </thead>
+      <tbody class="table-group-divider">
+      <tr>
+        <th>Heure de début</th>
+        <td *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
+          {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.heureDebut)}}
+        </td>
+      </tr>
+      <tr>
+        <th>Début de repas</th>
+        <td *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
+          {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.debutRepas)}}
+        </td>
+      </tr>
+      <tr>
+        <th>Fin de repas</th>
+        <td *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
+          {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.finRepas)}}
+        </td>
+      </tr>
+      <tr>
+        <th>Heure de fin</th>
+        <td *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
+          {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.heureFin)}}
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
+          <div class="d-flex justify-content-center">
+            <button *ngIf="!this.quartByJourExiste(jour)" (click)="afficherFormulaireQuart(jour)" class="btn btn-sm btn-primary">Ajouter</button>
+            <button *ngIf="this.quartByJourExiste(jour)" (click)="supprimerQuart(DateUtils.getDateByJourSemaine(jour, dateDebut))"
+                    class="btn btn-sm btn-warning">Retirer
+            </button>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="justify-content-center d-flex">
+      <button (click)="soummettreHoraire()" class="btn btn-success btn-lg mx-2">Confirmer</button>
+      <button (click)="cacherFormulaire()" class="btn btn-danger btn-lg mx-2">Annuler</button>
+    </div>
+  </div>
+  <app-formulaire-quart *ngIf="formulaireQuartAffiche" [date]="dateQuart"></app-formulaire-quart>
+</main>

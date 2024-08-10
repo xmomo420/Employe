@@ -1,32 +1,32 @@
 export class Quart {
-  private id?: number;
+  private _id?: number;
   private _date: Date;
   private _heureDebut: Date;
   private _debutRepas?: Date;
   private _finRepas?: Date;
   private _heureFin?: Date;
   // Clés étrangères
-  private horaireQuotidien?: number;
-  private feuilleDeTemps?: number;
+  private _horaireQuotidien?: number;
+  private _feuilleDeTemps?: number;
 
 
   constructor(
-    id: number,
     date: Date,
     heureDebut: Date,
     heureFin?: Date,
     debutRepas?: Date,
     finRepas?: Date,
     horaireQuotidien?: number,
-    feuilleDeTemps?: number) {
-    this.id = id;
+    feuilleDeTemps?: number,
+    id?: number) {
     this._date = date;
     this._heureDebut = heureDebut;
     this._debutRepas = debutRepas;
     this._finRepas = finRepas;
     this._heureFin = heureFin;
-    this.horaireQuotidien = horaireQuotidien;
-    this.feuilleDeTemps = feuilleDeTemps;
+    this._horaireQuotidien = horaireQuotidien;
+    this._feuilleDeTemps = feuilleDeTemps;
+    this._id = id;
   }
 
   public static parseTime(timeString: string): Date {
@@ -36,7 +36,7 @@ export class Quart {
     return date;
   }
 
-  public static formatterHeure(date: Date | undefined): string {
+  public static formatterHeureAffichage(date: Date | undefined): string {
     if (!date) {
       return '';
     }
@@ -45,17 +45,36 @@ export class Quart {
     return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
   }
 
+  public static formatterHeureBackend(date: Date | undefined): string {
+    if (!date) {
+      return '';
+    }
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+  }
+
+  public toJson(): any {
+    return {
+      date: this._date.toLocaleDateString(),
+      heureDebut: `${Quart.formatterHeureBackend(this._heureDebut)}:00`,
+      heureFin: `${Quart.formatterHeureBackend(this._heureFin)}:00`,
+      debutRepas: this.debutRepas !== undefined ? `${Quart.formatterHeureBackend(this._debutRepas)}:00` : null,
+      finRepas: this.finRepas !== undefined ? `${Quart.formatterHeureBackend(this._finRepas)}:00` : null,
+    };
+  }
+
   public static jsonToQuart(jsonObject: any): Quart {
     const dateAvecTemps = jsonObject.date + "T00:00:00";
     return new Quart(
-      jsonObject.id !== null ? jsonObject.id : -1,
       new Date(dateAvecTemps),
       this.parseTime(jsonObject.heureDebut),
       jsonObject.heureFin !== null ? this.parseTime(jsonObject.heureFin) : undefined,
       jsonObject.debutRepas !== null ? this.parseTime(jsonObject.debutRepas) : undefined,
       jsonObject.finRepas !== null ? this.parseTime(jsonObject.finRepas) : undefined,
-      jsonObject.horaireQuotidien !== null ? jsonObject.horaireQuotidien : undefined,
-      jsonObject.feuilleDeTemps !== null ? jsonObject.feuilleDeTemps : undefined
+      jsonObject._horaireQuotidien !== null ? jsonObject._horaireQuotidien : undefined,
+      jsonObject._feuilleDeTemps !== null ? jsonObject._feuilleDeTemps : undefined,
+      jsonObject.id !== null ? jsonObject.id : -1,
     );
   }
 
@@ -79,4 +98,36 @@ export class Quart {
     return this._heureFin;
   }
 
+
+  set id(value: number) {
+    this._id = value;
+  }
+
+  set date(value: Date) {
+    this._date = value;
+  }
+
+  set heureDebut(value: Date) {
+    this._heureDebut = value;
+  }
+
+  set debutRepas(value: Date) {
+    this._debutRepas = value;
+  }
+
+  set finRepas(value: Date) {
+    this._finRepas = value;
+  }
+
+  set heureFin(value: Date) {
+    this._heureFin = value;
+  }
+
+  set horaireQuotidien(value: number) {
+    this._horaireQuotidien = value;
+  }
+
+  set feuilleDeTemps(value: number) {
+    this._feuilleDeTemps = value;
+  }
 }

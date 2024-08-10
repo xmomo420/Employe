@@ -20,4 +20,8 @@ public class Horaire {
     private AggregateReference<Employe, Integer> employe;
     private LocalDate dateDebut;
 
+    public double getNombreHeuresTravaillees() {
+        return quartsTravail.stream().mapToDouble(Quart::getDuree).sum();
+    }
+
 }

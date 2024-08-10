@@ -1,5 +1,34 @@
 <main>
-  <h3 *ngIf="authentificationService.estAuthentifie">
-    Bonjour {{this.nomComplet}}
-  </h3>
+  <div class="container card p-4 text-center">
+    <h4 class="text-start">Bonjour {{nomComplet}}</h4>
+    <hr>
+    <h5 class="text-start">Profil</h5>
+    <hr>
+    <form class="row g-3">
+      <div class="col-md-6 text-start">
+        <label class="form-label">Date d'embauche</label>
+        <input readonly class="form-control" type="text" value="{{DateUtils.formatterDate(dateEmbauche)}} {{dateEmbauche?.getFullYear()}}">
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label">Rôle</label>
+        <input readonly class="form-control" type="text" value="{{role}}">
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label">Taux horaire ($)</label>
+        <input readonly class="form-control" type="text" value="{{tauxHoraire}}">
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label">Numéro d'assurance social</label>
+        <input placeholder="NAS pas encore fourni" readonly class="form-control" type="password" value="{{numeroAssuranceSociale}}">
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label">Superviseur</label>
+        <input placeholder="Aucun" readonly class="form-control" type="text" value="{{superviseur}}">
+      </div>
+      <div class="col-md-6 text-start">
+        <label class="form-label">Nombre d'heure travaillées cette semaine</label>
+        <input readonly class="form-control" type="number" value="{{nombreHeuresTravaillees}}">
+      </div>
+    </form>
+  </div>
 </main>

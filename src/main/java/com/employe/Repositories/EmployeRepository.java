@@ -20,4 +20,5 @@ public interface EmployeRepository extends CrudRepository<Employe, Integer> {
     Optional<HoraireQuotidien> trouverHoraireDeLaSemaine(Integer idEmploye, LocalDate lundiDernier);
     Optional<List<Employe>> findAllBySuperviseur(AggregateReference<Employe, Integer> superviseur);
     Optional<List<Employe>> findAllByRoleNot(Role role);
+    Optional<List<Employe>> findAllByRole(Role role);
 }
