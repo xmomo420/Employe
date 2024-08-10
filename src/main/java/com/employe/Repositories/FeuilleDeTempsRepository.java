@@ -7,9 +7,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface FeuilleDeTempsRepository extends CrudRepository<FeuilleDeTemps, Integer> {
     Optional<FeuilleDeTemps> findByEmployeAndDateDebut(AggregateReference<Employe, Integer> employe, LocalDate dateDebut);
+    Optional<List<FeuilleDeTemps>> findAllByEmploye(AggregateReference<Employe, Integer> employe);
+
 }

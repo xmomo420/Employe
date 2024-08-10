@@ -4,7 +4,7 @@
     <hr>
     <h5 class="text-start">Profil</h5>
     <hr>
-    <form class="row g-3">
+    <form #formulaire=ngForm (ngSubmit)="soumettreFormulaire()" class="row g-3">
       <div class="col-md-6 text-start">
         <label class="form-label">Date d'embauche</label>
         <input readonly class="form-control" type="text" value="{{DateUtils.formatterDate(dateEmbauche)}} {{dateEmbauche?.getFullYear()}}">
@@ -19,7 +19,11 @@
       </div>
       <div class="col-md-6 text-start">
         <label class="form-label">Numéro d'assurance social</label>
-        <input placeholder="NAS pas encore fourni" readonly class="form-control" type="password" value="{{numeroAssuranceSociale}}">
+        <input #referenceNas=ngModel [(ngModel)]="nasFormulaire" [class.is-valid]="estNasValide() && referenceNas.touched && formulaireActif"
+               [class.is-invalid]="formulaireActif && !estNasValide() && formulaire.touched" name="nas"
+               placeholder="NAS pas encore fourni" [readonly]="!formulaireActif"
+               class="form-control" type="password" value="{{numeroAssuranceSociale}}">
+        <div class="invalid-feedback">{{MESSAGE_NAS_INVALIDE}}</div>
       </div>
       <div class="col-md-6 text-start">
         <label class="form-label">Superviseur</label>
@@ -30,5 +34,12 @@
         <input readonly class="form-control" type="number" value="{{nombreHeuresTravaillees}}">
       </div>
     </form>
+    <hr>
+    <div>
+      <button type="submit" (click)="formulaireActif ? soumettreFormulaire() : activerFormulaire()" class="btn btn-success" [disabled]="formulaireActif && !estNasValide()">
+        {{formulaireActif ? "Confirmer les changements" : "Mettre à jour"}}
+      </button>
+    </div>
+
   </div>
 </main>

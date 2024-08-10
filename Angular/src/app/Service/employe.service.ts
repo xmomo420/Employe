@@ -63,4 +63,16 @@ export class EmployeService {
     });
     return reponseServeur.status === 200;
   }
+
+  public async modiferNas(idEmploye: string, nas: string) : Promise<boolean> {
+    const formData = new FormData();
+    formData.append("nas", nas);
+    const reponseServeur = await fetch(`${this.URI_EMPLOYE}/${idEmploye}/nas`,
+      {
+        method: "PUT",
+        body: formData
+      });
+    console.log(reponseServeur);
+    return reponseServeur.status === 200;
+  }
 }

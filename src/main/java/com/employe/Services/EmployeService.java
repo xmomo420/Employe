@@ -21,10 +21,12 @@ public class EmployeService implements UserDetailsService {
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final EmployeRepository employeRepository;
+    private final FeuilleDeTempsRepository feuilleDeTempsRepository;
 
     private static final double SALAIRE_MIN = 15.50;
     private static final double SALAIRE_MAX = 45.0;
     private static final String LETTRES_NOM = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private final HoraireRepository horaireRepository;
 
     @Override
     public UserDetails loadUserByUsername(String nomUtilisateur) throws UsernameNotFoundException {
@@ -75,4 +77,5 @@ public class EmployeService implements UserDetailsService {
         }
         return id;
     }
+
 }

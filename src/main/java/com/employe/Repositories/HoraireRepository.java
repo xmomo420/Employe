@@ -14,4 +14,5 @@ import java.util.Optional;
 @Repository
 public interface HoraireRepository extends CrudRepository<HoraireQuotidien, Integer> {
     Optional<HoraireQuotidien> findByEmployeAndDateDebut(AggregateReference<Employe, Integer> employe, LocalDate dateDebut);
+    Optional<List<HoraireQuotidien>> findAllByEmploye(AggregateReference<Employe, Integer> employe);
 }

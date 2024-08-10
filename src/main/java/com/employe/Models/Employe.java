@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,8 +34,10 @@ public class Employe implements UserDetails {
     private Role role;
     private AggregateReference<Employe, Integer> superviseur;
     @MappedCollection(keyColumn = "employe")
+    @Transient
     private List<HoraireQuotidien> horairesQuotidiens;
     @MappedCollection(keyColumn = "employe")
+    @Transient
     private List<FeuilleDeTemps> feuillesDeTemps;
     private double tauxHoraire;
 

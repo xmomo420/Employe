@@ -4,6 +4,7 @@ import com.employe.Models.Employe;
 import com.employe.Models.Employe.Role;
 import com.employe.Models.HoraireQuotidien;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -21,4 +22,10 @@ public interface EmployeRepository extends CrudRepository<Employe, Integer> {
     Optional<List<Employe>> findAllBySuperviseur(AggregateReference<Employe, Integer> superviseur);
     Optional<List<Employe>> findAllByRoleNot(Role role);
     Optional<List<Employe>> findAllByRole(Role role);
+    @Modifying
+    @Query("UPDATE employe SET superviseur = :idSuperviseur WHERE id = :idEmploye")
+    void assignerSuperviseur(Integer idEmploye, Integer idSuperviseur);
+    @Modifying
+    @Query("UPDATE employe SET numero_assurance_social = :nas WHERE id = :idEmploye")
+    void modifierNas(Integer idEmploye, String nas);
 }

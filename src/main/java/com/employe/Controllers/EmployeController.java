@@ -7,9 +7,12 @@ import com.employe.Models.HoraireQuotidien;
 import com.employe.Repositories.EmployeRepository;
 import com.employe.Repositories.FeuilleDeTempsRepository;
 import com.employe.Repositories.HoraireRepository;
+import com.employe.Services.EmployeService;
+import com.employe.Services.HoraireService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,6 +31,7 @@ public class EmployeController {
 
     private final EmployeRepository employeRepository;
     private final HoraireRepository horaireRepository;
+    private final EmployeService employeService;
     private final FeuilleDeTempsRepository feuilleDeTempsRepository;
 
     @GetMapping("/horaire")
@@ -127,5 +131,22 @@ public class EmployeController {
         return ResponseEntity.ok().body(reponse.toString());
     }
 
-
+    @Modifying
+    @PutMapping("/{idEmploye}/nas")
+    public ResponseEntity<Boolean> modifierNas(
+            @PathVariable Integer idEmploye,
+            @AuthenticationPrincipal Employe employe,
+            @RequestParam String nas
+    ) {
+        if (!Objects.equals(employe.getId(), idEmploye)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Employe employeModifie = employeRepository.findById(idEmploye).orElse(null);
+        if (employeModifie == null) {
+            return ResponseEntity.notFound().build();
+        }
+        employeModifie.setNumeroAssuranceSocial(nas);
+        employeRepository.save(employeModifie);
+        return ResponseEntity.ok().body(true);
+    }
 }
