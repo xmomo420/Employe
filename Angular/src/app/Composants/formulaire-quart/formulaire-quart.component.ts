@@ -1,7 +1,8 @@
-import {Component, Inject, Input} from '@angular/core';
+import {Component, Inject, Input, ViewChild} from '@angular/core';
 import {FormulaireHoraireComponent} from "../formulaire-horaire/formulaire-horaire.component";
 import {Quart} from "../../Model/Quart";
 import {DateUtils} from "../../Utils/date-utils";
+import {NgModel} from "@angular/forms";
 
 @Component({
   selector: 'app-formulaire-quart',
@@ -17,11 +18,11 @@ export class FormulaireQuartComponent {
   protected finRepas!: Date;
   protected afficherErreur: boolean = false;
 
-  protected readonly MESSAGE_ERREUR = "Erreur lors de l'ajout du quart";
-
   constructor(@Inject(FormulaireHoraireComponent) protected referenceFormulaireHoraire: FormulaireHoraireComponent) { }
 
-  protected async ajouterQuart() {
+  protected readonly MESSAGE_CHAMP_INVALIDE: string = "Ce champ est invalide";
+
+  protected ajouterQuart() {
     this.ajouterJoursAuxDates();
     const nouveauQuart: Quart = new Quart(this.date, this.heureDebut, this.heureFin, this.debutRepas, this.finRepas);
     // Le formulaire valide le quart
@@ -58,7 +59,39 @@ export class FormulaireQuartComponent {
     }
   }
 
-  protected supprimerQuart(dateDuQaurt: Date) {
-    this.referenceFormulaireHoraire.supprimerQuart(dateDuQaurt);
+  protected estHeureDebutValide(): boolean {
+    return this.heureDebut !== undefined;
+  }
+
+  protected estHeureFinValide(): boolean {
+    return this.heureFin !== undefined
+      && (this.heureDebut === undefined || this.heureFin > this.heureDebut)
+      && (this.debutRepas === undefined || this.heureFin > this.debutRepas)
+      && (this.finRepas === undefined || this.heureFin > this.finRepas);
+  }
+
+  protected estDebutRepasValide(): boolean {
+   if (this.debutRepas === undefined) {
+     return this.finRepas === undefined;
+   }
+   return (this.heureDebut === undefined || this.debutRepas > this.heureDebut)
+      && (this.heureFin === undefined || this.debutRepas < this.heureFin)
+      && (this.finRepas === undefined || this.debutRepas < this.finRepas);
+  }
+
+  protected estFinRepasValide(): boolean {
+    if (this.finRepas === undefined) {
+      return this.debutRepas === undefined;
+    }
+    return (this.heureDebut === undefined || this.finRepas > this.heureDebut)
+      && (this.heureFin === undefined || this.finRepas < this.heureFin)
+      && (this.debutRepas === undefined || this.finRepas > this.debutRepas);
+  }
+
+  protected estQuartValide(): boolean {
+    return this.estHeureDebutValide()
+      && this.estHeureFinValide()
+      && this.estDebutRepasValide()
+      && this.estFinRepasValide();
   }
 }

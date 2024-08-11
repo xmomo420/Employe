@@ -28,8 +28,8 @@
       </div>
       <div class="col-md-6 text-start">
         <label class="form-label">Numéro d'assurance social</label>
-        <input #referenceNas=ngModel [(ngModel)]="nasFormulaire" [class.is-valid]="estNasValide() && referenceNas.touched && formulaireActif"
-               [class.is-invalid]="formulaireActif && !estNasValide() && formulaire.touched" name="nas"
+        <input #referenceNas=ngModel [(ngModel)]="nasFormulaire" [class.is-valid]="estNasValide() && formulaireActif"
+               [class.is-invalid]="formulaireActif && !estNasValide()" name="nas"
                placeholder="NAS pas encore fourni" [readonly]="!formulaireActif"
                class="form-control" type="password" value="{{numeroAssuranceSociale}}">
         <div class="invalid-feedback">{{MESSAGE_NAS_INVALIDE}}</div>
@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-6 text-start">
         <label class="form-label">Nombre d'heure travaillées cette semaine</label>
-        <input readonly class="form-control" type="number" value="{{nombreHeuresTravaillees}}">
+        <input readonly class="form-control" type="number" value="{{nombreHeuresTravaillees | number:'1.2-2'}}">
       </div>
     </form>
     <div class="d-flex justify-content-center mt-3">

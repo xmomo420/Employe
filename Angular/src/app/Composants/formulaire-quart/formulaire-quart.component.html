@@ -7,23 +7,35 @@
       </div>
       <div class="col-md-3">
         <label class="form-label">Heure de début</label>
-        <input name="heureDebut" [(ngModel)]="heureDebut" class="form-control" type="time">
+        <input #inputHeureDebut=ngModel name="heureDebut" [(ngModel)]="heureDebut" class="form-control" type="time"
+          [class.is-valid]="inputHeureDebut.touched && estHeureDebutValide()"
+          [class.is-invalid]="inputHeureDebut.touched && !estHeureDebutValide()">
+        <div class="invalid-feedback">{{MESSAGE_CHAMP_INVALIDE}}</div>
       </div>
       <div class="col-md-3">
         <label class="form-label">Heure de fin</label>
-        <input name="heureFin" [(ngModel)]="heureFin" class="form-control" type="time">
+        <input #inputHeureFin=ngModel name="heureFin" [(ngModel)]="heureFin" class="form-control" type="time"
+          [class.is-valid]="inputHeureFin.touched && estHeureFinValide()"
+          [class.is-invalid]="inputHeureFin.touched && !estHeureFinValide()">
+        <div class="invalid-feedback">{{MESSAGE_CHAMP_INVALIDE}}</div>
       </div>
       <div class="col-md-12"></div>
       <div class="col-md-3">
         <label class="form-label">Début du repas</label>
-        <input name="debutRepas" [(ngModel)]="debutRepas" class="form-control" type="time">
+        <input #inputDebutRepas=ngModel name="debutRepas" [(ngModel)]="debutRepas" class="form-control" type="time"
+          [class.is-valid]="inputDebutRepas.touched && estDebutRepasValide()"
+          [class.is-invalid]="inputDebutRepas.touched && !estDebutRepasValide()">
+        <div class="invalid-feedback">{{MESSAGE_CHAMP_INVALIDE}}</div>
       </div>
       <div class="col-md-3">
         <label class="form-label">Fin du repas</label>
-        <input name="finRepas" [(ngModel)]="finRepas" class="form-control" type="time">
+        <input #inputFinRepas=ngModel name="finRepas" [(ngModel)]="finRepas" class="form-control" type="time"
+        [class.is-valid]="inputFinRepas.touched && estFinRepasValide()"
+        [class.is-invalid]="inputFinRepas.touched && !estFinRepasValide()">
+        <div class="invalid-feedback">{{MESSAGE_CHAMP_INVALIDE}}</div>
       </div>
       <div class="justify-content-center d-flex mt-3">
-        <button (click)="ajouterQuart()" class="btn btn-success btn-lg mx-2">Ajouter</button>
+        <button [disabled]="!estQuartValide()" (click)="ajouterQuart()" class="btn btn-success btn-lg mx-2">Ajouter</button>
         <button (click)="cacherFormulaire()" class="btn btn-danger btn-lg mx-2">Annuler</button>
       </div>
     </form>

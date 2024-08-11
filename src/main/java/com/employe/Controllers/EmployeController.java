@@ -103,7 +103,7 @@ public class EmployeController {
         }
         double nombreHeuresTravaillees = 0;
         LocalDate lundiDernier = LocalDate.now();
-        while (lundiDernier.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
+        while (!lundiDernier.getDayOfWeek().equals(DayOfWeek.MONDAY)) {
             lundiDernier = lundiDernier.minusDays(1);
         }
         FeuilleDeTemps feuilleDeTempsSemaineCourante = feuilleDeTempsRepository.findByEmployeAndDateDebut(
