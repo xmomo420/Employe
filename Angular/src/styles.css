@@ -27,8 +27,12 @@ body {
   min-height: 100vh;
 }
 
-.container{
-  width: 120%;
+.container {
+  background: linear-gradient(to right, navy, #170E42FF, #341D65FF, #5300B3FF, #341D65FF, #170E42FF, navy);
+}
+
+.horaire {
+  width: 90%; /* Ajustez cette valeur selon vos besoins */
   background: linear-gradient(to right, navy, #170E42FF, #341D65FF, #5300B3FF, #341D65FF, #170E42FF, navy);
 }
 

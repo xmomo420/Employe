@@ -1,5 +1,5 @@
 <main>
-  <div [class.blurred]="formulaireQuartAffiche" class="foreground table-responsive container card p-4 mx-auto">
+  <div [class.blurred]="formulaireQuartAffiche" class="foreground table-responsive container-fluid horaire card p-4 mx-auto">
     <div *ngIf="messageQuartAjouteOuSupprime || messageErreurAffiche" role="alert" class="m-3 text-center">
       <h3 [class.alert-danger]="messageIndicationApproprie.length === 34 || messageErreurAffiche"
           [class.alert-success]="messageIndicationApproprie.length === 32" class="alert">
