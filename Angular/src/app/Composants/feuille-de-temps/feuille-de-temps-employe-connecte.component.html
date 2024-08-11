@@ -5,25 +5,25 @@
     </app-horaire>
     <!-- TODO : Ajouter des invalid-tooltip pour indiquer que les enregistrements ne sont pas valide. -->
     <div *ngIf="dateDansSemaineActuelle(horaireComponent.datesDebut.at(horaireComponent.indiceDate))" class="justify-content-center d-flex">
-      <button (click)="afficherConfirmation('HEURE_DEBUT')" [class.disabled]="!peutDebuterQuart()"
+      <button (click)="afficherConfirmation('HEURE_DEBUT')" [class.disabled]="!peutDebuterQuart() || isConfirmationAffichee"
               class="btn btn-success mx-2">Début du quart
       </button>
-      <button (click)="afficherConfirmation('DEBUT_REPAS')" [class.disabled]="!peutDebuterRepas()"
+      <button (click)="afficherConfirmation('DEBUT_REPAS')" [class.disabled]="!peutDebuterRepas() || isConfirmationAffichee"
               class="btn btn-primary mx-2">Début repas
       </button>
-      <button (click)="afficherConfirmation('FIN_REPAS')" [class.disabled]="!peutTerminerRepas()"
+      <button (click)="afficherConfirmation('FIN_REPAS')" [class.disabled]="!peutTerminerRepas() || isConfirmationAffichee"
               class="btn btn-warning mx-2">Fin repas
       </button>
-      <button (click)="afficherConfirmation('HEURE_FIN')" [class.disabled]="!peutTerminerQuart()"
+      <button (click)="afficherConfirmation('HEURE_FIN')" [class.disabled]="!peutTerminerQuart() || isConfirmationAffichee"
               class="btn btn-danger mx-2">Fin du quart
       </button>
     </div>
   </div>
-  <div role="alert" *ngIf="isConfirmationAffichee" class="foreground">
-    <h5 class="alert">{{messageConfirmation}}</h5>
+  <div role="alert" *ngIf="isConfirmationAffichee" style="width: 40%" class="foreground container card">
+    <h5 class="alert text-center text-white">{{messageConfirmation}}</h5>
     <div class="text-center"> <!-- TODO : Enregistrer le quart -> quart.service -> HTTP fetch POST/PATCH/PUT  -->
       <button class="btn btn-success mx-2" (click)="enregistrerQuart()">Confirmer</button>
-      <button class="btn btn-danger mx-2" (click)="isConfirmationAffichee = false">Annuler</button>
+      <button class="btn btn-danger mx-2" (click)="cacherConfirmation()">Annuler</button>
     </div>
   </div>
 </main>

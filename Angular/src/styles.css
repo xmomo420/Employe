@@ -9,8 +9,40 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
 }
+
+body, input, select {
+  background-image: radial-gradient(
+    farthest-corner at 40px 40px,
+    cyan 0%,
+    royalblue 66%,
+    darkcyan 100%
+  );
+}
+
+body {
+  min-height: 100vh;
+}
+
+.container{
+  width: 120%;
+  background: linear-gradient(to right, navy, #170E42FF, #341D65FF, #5300B3FF, #341D65FF, #170E42FF, navy);
+}
+
+hr {
+  border-width: 1rem;
+  border-radius: 10px; /* Ajustez cette valeur selon vos besoins */
+}
+
+hr, h1, h2, h3, h4, h5, h6, label, p, span {
+  color: white;
+}
+
+input::placeholder {
+  font-style: italic;
+}
+
+

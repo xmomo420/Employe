@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {AuthentificationService} from "../../Service/authentification.service";
 import {Employe} from "../../Model/Employe";
 import {EmployeService} from "../../Service/employe.service";
-import {AssignationSuperviseurComponent} from "../assignation-superviseur/assignation-superviseur.component";
 import {Role} from "../../Model/Role";
 
 @Component({
@@ -12,7 +11,7 @@ import {Role} from "../../Model/Role";
   templateUrl: './gestion-employes.component.html',
   styleUrl: './gestion-employes.component.css'
 })
-export class GestionEmployesComponent extends VerifierAuthentificationComponent implements AfterContentInit {
+export class GestionEmployesComponent extends VerifierAuthentificationComponent implements OnInit {
 
   // Pour ajouter un nouvel employé
   private _employes: Employe[] = [];
@@ -67,7 +66,7 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
     super(router, authentificationService);
   }
 
-  async ngAfterContentInit(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     await this.chargerEmployes();
   }
 
@@ -89,10 +88,13 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
   }
 
   public afficherMessageNouvelEmployeAjoute() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.nouvelEmployeAjoute = true;
   }
 
   public afficherMessageSuperviseurAssigne() {
+    // TODO : Scroller jusqu'au message
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.superviseurAssigne = true;
   }
 

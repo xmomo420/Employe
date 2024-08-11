@@ -1,14 +1,18 @@
 <main>
-  <h2 class="text-center mb-3">{{typeHoraire === "horaireQuotidien" ? "Horaire" : "Feuille de temps"}} de {{nomEmploye}}</h2>
-  <hr>
-  <div class="d-flex justify-content-center align-items-center mt-3">
-    <div *ngIf="!boutonsDesactives && !dateMinimumAtteinte()" (click)="horairePrecedent()" type="button" class="me-1">
-      <span class="carousel-control-prev-icon"></span>
+  <div class="container card p-4 mb-3">
+    <h2 class="text-center mb-3">{{typeHoraire === "horaireQuotidien" ? "Horaire" : "Feuille de temps"}} de {{nomEmploye}}</h2>
+    <hr>
+    <div class="d-flex justify-content-center align-items-center mt-3">
+      <div *ngIf="!boutonsDesactives && !dateMinimumAtteinte()" (click)="horairePrecedent()" type="button" class="me-1">
+        <span class="carousel-control-prev-icon"></span>
+      </div>
+      <h5>Semaine du {{DateUtils.formatterDate(datesDebut.at(indiceDate))}}</h5>
+      <div *ngIf="!boutonsDesactives && !dateMaximumAtteinte()" (click)="horaireSuivant()" type="button" class="ms-1">
+        <span class="carousel-control-next-icon"></span>
+      </div>
     </div>
-    <h5>Semaine du {{DateUtils.formatterDate(datesDebut.at(indiceDate))}}</h5>
-    <div *ngIf="!boutonsDesactives && !dateMaximumAtteinte()" (click)="horaireSuivant()" type="button" class="ms-1">
-      <span class="carousel-control-next-icon"></span>
-    </div>
+    <app-affichage-horaire [referenceHoraire]="this" [_dateDebut]="datesDebut.at(indiceDate)"
+      [_horaire]="horaire ? horaire : null">
+    </app-affichage-horaire>
   </div>
-  <app-affichage-horaire [referenceHoraire]="this" [_dateDebut]="datesDebut.at(indiceDate)" [_horaire]="horaire ? horaire : null"></app-affichage-horaire>
 </main>

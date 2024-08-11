@@ -1,13 +1,13 @@
 <main>
   <div [class.blurred]="formulaireNouvelEmployeAffiche || formulaireAssignationSuperviseurAffiche">
     <div style="width: 70%" class="table-responsive p-4 mx-auto">
-      <div role="alert" class="text-center container" *ngIf="nouvelEmployeAjoute">
+      <div role="alert" class="text-center" *ngIf="nouvelEmployeAjoute">
         <h4 class="alert alert-success alert">{{MESSAGE_EMPLOYE_AJOUTE}}</h4>
       </div>
-      <div role="alert" class="text-center container" *ngIf="superviseurAssigne">
+      <div role="alert" class="text-center" *ngIf="superviseurAssigne">
         <h4 class="alert alert-success alert">{{MESSAGE_SUPERVISEUR_ASSIGNE}}</h4>
       </div>
-      <table class="table text-center align-middle table-striped table-bordered">
+      <table class="table table-dark text-center align-middle table-striped table-bordered">
         <thead>
         <tr>
           <th style="width: 40%" scope="col">Nom</th>
@@ -15,7 +15,7 @@
           <th style="width: 40%" scope="col"></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
         <tr *ngFor="let employe of employes">
           <td>{{employe.prenom}} {{employe.nom}}</td>
           <td>{{getRole(employe.role.toString())}}</td>
@@ -41,7 +41,7 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="authentificationService.getLoginJwtClaim('role') === 'ADJOINT'" class="text-center">
+    <div *ngIf="authentificationService.getLoginJwtClaim('role') === 'ADJOINT'" class="text-center mb-5">
       <button [disabled]="formulaireAssignationSuperviseurAffiche || formulaireNouvelEmployeAffiche" (click)="afficherFormulaireNouvelEmploye()" class="btn btn-success btn-lg">Ajouter un nouvel employé</button>
     </div>
   </div>

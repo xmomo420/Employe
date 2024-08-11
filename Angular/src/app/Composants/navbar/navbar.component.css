@@ -10,3 +10,14 @@
 .zoom-on-hover:hover {
   transform: scale(1.05);
 }
+
+.navbar {
+  background: linear-gradient(to right, navy, #170E42FF, #341D65FF, #5300B3FF, #341D65FF, #170E42FF, navy);
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+

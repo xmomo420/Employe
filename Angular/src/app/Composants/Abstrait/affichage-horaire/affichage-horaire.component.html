@@ -1,6 +1,5 @@
 <main>
-  <div [class.blurred]="formulaireHoraireAffiche" style="width: 75%" class="table-responsive p-4 mx-auto">
-
+  <div style="width: 100%" [class.blurred]="formulaireHoraireAffiche" class="table-responsive p-4 mx-auto">
       <div *ngIf="messageHoraireModifieAffiche" style="width: 50%"
            class="text-center mx-auto alert alert-success alert-dismissible fade show" role="alert">
         <strong>{{MESSAGE_HORAIRE_MODIFIE}}</strong>
@@ -8,47 +7,47 @@
                 data-bs-dismiss="alert" aria-label="Close">
         </button>
       </div>
-    <table class="table text-center align-middle table-striped table-bordered">
+    <table class="table table-primary text-center align-middle table-striped table-bordered">
       <thead>
         <tr>
-          <th style="width: 10%" scope="col"></th>
-          <td [class.table-info]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))" *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
+          <th style="width: fit-content" scope="col"></th>
+          <th [class.table-danger]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))" *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
             {{DateUtils.joursSemaine[jour]}}, le {{DateUtils.formatterDate(DateUtils.getDateByJourSemaine(jour, this.dateDebut))}}
-          </td>
+          </th>
         </tr>
       </thead>
       <tbody class="table-group-divider">
         <tr>
           <th class="text-start" scope="row">Heure de début</th>
-          <td [class.table-info]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
+          <td [class.table-danger]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
               *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
             {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.heureDebut)}}
           </td>
         </tr>
         <tr>
           <th class="text-start" scope="row">Début de repas</th>
-          <td [class.table-info]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
+          <td [class.table-danger]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
               *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
             {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.debutRepas)}}
           </td>
         </tr>
         <tr>
           <th class="text-start" scope="row">Fin de repas</th>
-          <td [class.table-info]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
+          <td [class.table-danger]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
               *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
             {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.finRepas)}}
           </td>
         </tr>
         <tr>
           <th class="text-start" scope="row">Heure de fin</th>
-          <td [class.table-info]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
+          <td [class.table-danger]="estDateAujourdhui(DateUtils.getDateByJourSemaine(jour, this.dateDebut))"
               *ngFor="let jour of DateUtils.getJoursSemaineKeys()">
             {{Quart.formatterHeureAffichage(horaire?.getQuartByJour(jour)?.heureFin)}}
           </td>
         </tr>
       </tbody>
     </table>
-    <div><span class="fw-bold">Nombre total d'heures : </span>{{calculerNombreHeuresTotal()}}</div>
+    <div class="text-white"><span class="fw-bold">Nombre total d'heures : </span>{{calculerNombreHeuresTotal()}}</div>
   </div>
   <div *ngIf="routeModificationHoraireValide()" class="text-center">
     <button [disabled]="!datesModificationsPossibles() || formulaireHoraireAffiche" (click)="afficherFormulaire()"

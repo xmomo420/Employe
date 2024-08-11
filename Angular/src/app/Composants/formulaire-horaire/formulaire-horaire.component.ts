@@ -84,7 +84,7 @@ export class FormulaireHoraireComponent implements OnInit{
   }
 
   protected cacherFormulaire() {
-    this.referenceAffichageHoraire.cacherFormulaire();
+    this.referenceAffichageHoraire.cacherFormulaire().finally();
   }
 
   public afficherMessageQuartAjouteOuSupprime() {
@@ -119,4 +119,5 @@ export class FormulaireHoraireComponent implements OnInit{
   private cacherMessageErreur() {
     this.messageErreurAffiche = false;
   }
+
 }

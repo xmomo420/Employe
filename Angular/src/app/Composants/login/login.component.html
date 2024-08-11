@@ -1,5 +1,5 @@
 <main>
-  <div *ngIf="route.snapshot.queryParams['redirection']" style="width: 35%" class="container text-center" role="alert">
+  <div *ngIf="route.snapshot.queryParams['redirection']" style="width: 35%" class="mx-auto text-center" role="alert">
     <h2 class="alert alert-danger">{{MESSAGE_CONNEXION_REQUISE}}</h2>
   </div>
   <div style="width: 35%" class="container card p-4 mx-auto">
@@ -26,7 +26,6 @@
       <div class="text-center">
         <button type="submit" class="btn btn-success">Connexion</button>
       </div>
-      <hr>
       <!-- TODO : Bulle qui indique que si l'utilisateur a oublié ces renseignements, il faut aviser un supérieur -->
     </form>
   </div>

@@ -57,6 +57,9 @@ export class FeuilleDeTempsEmployeConnecteComponent extends VerifierAuthentifica
         return "Erreur";
     }
   }
+  protected cacherConfirmation() : void {
+    this.isConfirmationAffichee = false;
+  }
 
   protected afficherConfirmation(bouton: string) : void {
     this.typeEnregistrement = bouton;

@@ -35,8 +35,7 @@
                name="tauxHoraire" class="form-control" type="number" [(ngModel)]="_tauxHoraire">
         <div class="invalid-feedback">{{MESSAGE_TAUX_HORAIRE_INVALIDE}}</div>
       </div>
-      <hr>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center mt-3">
         <button [disabled]="!estFormulaireValide()" type="submit" class="btn btn-success btn-lg mx-2">Ajouter</button>
         <button (click)="annuler()" class="btn btn-danger btn-lg mx-2">Annuler</button>
       </div>

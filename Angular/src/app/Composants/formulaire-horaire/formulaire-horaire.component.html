@@ -6,7 +6,7 @@
         {{messageIndicationApproprie}}
       </h3>
     </div>
-    <table class="table text-center align-middle table-striped table-bordered">
+    <table class="table table-primary text-center align-middle table-striped table-bordered">
       <thead>
       <tr>
         <th style="width: 10%"></th>
@@ -54,8 +54,12 @@
       </tbody>
     </table>
     <div class="justify-content-center d-flex">
-      <button (click)="soummettreHoraire()" class="btn btn-success btn-lg mx-2">Confirmer</button>
-      <button (click)="cacherFormulaire()" class="btn btn-danger btn-lg mx-2">Annuler</button>
+      <button (click)="soummettreHoraire()" [disabled]="formulaireQuartAffiche" class="btn btn-success btn-lg mx-2">
+        Confirmer
+      </button>
+      <button (click)="cacherFormulaire()" [disabled]="formulaireQuartAffiche" class="btn btn-danger btn-lg mx-2">
+        Annuler
+      </button>
     </div>
   </div>
   <app-formulaire-quart *ngIf="formulaireQuartAffiche" [date]="dateQuart"></app-formulaire-quart>

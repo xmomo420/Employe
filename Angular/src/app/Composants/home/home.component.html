@@ -13,7 +13,7 @@
               data-bs-dismiss="alert" aria-label="Close">
       </button>
     </div>
-    <form #formulaire=ngForm (ngSubmit)="soumettreFormulaire()" class="row g-3">
+    <form #formulaire=ngForm (ngSubmit)="soumettreFormulaire()" class="row g-3 mb-3">
       <div class="col-md-6 text-start">
         <label class="form-label">Date d'embauche</label>
         <input readonly class="form-control" type="text" value="{{DateUtils.formatterDate(dateEmbauche)}} {{dateEmbauche?.getFullYear()}}">
@@ -43,12 +43,12 @@
         <input readonly class="form-control" type="number" value="{{nombreHeuresTravaillees}}">
       </div>
     </form>
-    <hr>
-    <div class="d-flex justify-content-center">
-      <button type="submit" (click)="formulaireActif ? soumettreFormulaire() : activerFormulaire()" class="btn btn-success mx-2" [disabled]="formulaireActif && !estNasValide()">
+    <div class="d-flex justify-content-center mt-3">
+      <button type="submit" (click)="formulaireActif ? soumettreFormulaire() : activerFormulaire()"
+        class="btn btn-success mx-2 btn-lg" [disabled]="formulaireActif && !estNasValide()">
         {{formulaireActif ? "Confirmer les changements" : "Mettre à jour"}}
       </button>
-      <button *ngIf="formulaireActif" class="btn btn-danger mx-2" (click)="desactiverFormulaire()">
+      <button *ngIf="formulaireActif" class="btn btn-danger btn-lg mx-2" (click)="desactiverFormulaire()">
         Annuler
       </button>
     </div>

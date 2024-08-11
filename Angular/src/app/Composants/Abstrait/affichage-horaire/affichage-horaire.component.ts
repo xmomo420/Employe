@@ -32,9 +32,9 @@ export class AffichageHoraireComponent {
     return this._horaire;
   }
 
-  set horaire(value: Horaire) {
+  /*set horaire(value: Horaire) {
     this._horaire = value;
-  }
+  }*/
 
   get dateDebut(): Date {
     return <Date>this._dateDebut;
@@ -103,8 +103,10 @@ export class AffichageHoraireComponent {
     this.referenceHoraire.desactiverBoutons();
   }
 
-  public cacherFormulaire() {
+  public async cacherFormulaire() {
     this.formulaireHoraireAffiche = false;
+    // Besoin, car l'horaire @Input() est passé par référence
+    await this.referenceHoraire.chargerHoraire();
     this.referenceHoraire.reactiverBoutons();
   }
 
