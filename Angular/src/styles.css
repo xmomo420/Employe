@@ -41,6 +41,11 @@ hr {
   border-radius: 10px; /* Ajustez cette valeur selon vos besoins */
 }
 
+.page-link {
+  background-color: #d35f50;
+  color: white;
+}
+
 hr, h1, h2, h3, h4, h5, h6, label, p, span {
   color: white;
 }

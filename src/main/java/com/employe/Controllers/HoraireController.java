@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -52,9 +53,15 @@ public class HoraireController {
     }
 
     private boolean estAuthorise(Integer idEmploye, Employe employe) {
-        return Objects.equals(employe.getId(), idEmploye) || employe.getRole().equals(Employe.Role.ADJOINT)
-                || employeRepository.findAllBySuperviseur(AggregateReference.to(employe.getId()))
-                        .stream().anyMatch(employes -> Objects.equals(employe.getId(), idEmploye));
+        if (Objects.equals(employe.getId(), idEmploye)
+                || employe.getRole().equals(Employe.Role.ADJOINT)) {
+            return true;
+        }
+        List<Employe> employesSupervises = employeRepository.findAllBySuperviseur(AggregateReference.to(employe.getId())).orElse(null);
+        if (employesSupervises == null) {
+            return false;
+        }
+        return employesSupervises.stream().anyMatch(unEmploye -> Objects.equals(unEmploye.getId(), idEmploye));
     }
 
     @PostMapping("/{idEmploye}")

@@ -32,9 +32,9 @@ export class AffichageHoraireComponent {
     return this._horaire;
   }
 
-  /*set horaire(value: Horaire) {
+  set horaire(value: Horaire) {
     this._horaire = value;
-  }*/
+  }
 
   get dateDebut(): Date {
     return <Date>this._dateDebut;
@@ -62,8 +62,7 @@ export class AffichageHoraireComponent {
     for (const quart of this.horaire?.quartsTravail) {
       total += this.calculerNombreHeures(quart);
     }
-    // 2 décimales max
-    return Math.round(total / 3600000 * 100) / 100;
+    return total / 3600000;
   }
 
   protected estDateAujourdhui(date?: Date): boolean {

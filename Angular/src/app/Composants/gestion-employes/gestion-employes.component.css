@@ -4,4 +4,13 @@ a[aria-disabled="true"] {
   opacity: 0.5; /* Réduire l'opacité pour simuler un état désactivé */
 }
 
+.page-link:hover {
+  cursor: pointer;
+}
+
+.active {
+  background-color: #630101;
+  border-color: white;
+}
+
 

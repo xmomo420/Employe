@@ -22,9 +22,34 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
   protected superviseurAssigne: boolean = false;
   protected _nomCompletEmploye: string = "";
   private _idEmploye: number = 0;
+  // Pour la pagination
+  protected indicePagination: number = 0;
+  protected indicePaginationMax!: number;
+  protected indicesPagination: number[] = [];
 
   protected readonly MESSAGE_EMPLOYE_AJOUTE = "L'employé a été ajouté avec succès";
   protected readonly MESSAGE_SUPERVISEUR_ASSIGNE = "Le superviseur a été assigné avec succès";
+  protected readonly TAILLE_PAGE: number = 5;
+
+  protected calculerIndiceDebut(): number {
+    return this.indicePagination * this.TAILLE_PAGE;
+  }
+
+  protected calculerIndiceFin(): number {
+    return Math.min((this.indicePagination + 1) * this.TAILLE_PAGE, this.employes.length);
+  }
+
+  protected afficherPage(indice: number) {
+    this.indicePagination = indice;
+  }
+
+  protected pagePrecedente() {
+    this.indicePagination -= 1;
+  }
+
+  protected pageSuivante() {
+    this.indicePagination += 1;
+  }
 
   get nomCompletEmploye(): string {
     return this._nomCompletEmploye;
@@ -68,6 +93,10 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
 
   async ngOnInit(): Promise<void> {
     await this.chargerEmployes();
+    this.indicePaginationMax = Math.ceil(this.employes.length / this.TAILLE_PAGE);
+    for (let i = 0; i < this.indicePaginationMax; i++) {
+      this.indicesPagination.push(i);
+    }
   }
 
   public async chargerEmployes() {
@@ -135,4 +164,5 @@ export class GestionEmployesComponent extends VerifierAuthentificationComponent 
   public peutAssignerSuperviseur(employe: Employe) : boolean {
     return employe.role !== Role.GERANT;
   }
+
 }

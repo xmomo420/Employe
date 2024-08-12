@@ -36,6 +36,7 @@ export class FormulaireNouvelEmployeComponent {
     if (employeEstAjoute) {
       this.gestionEmploye.afficherMessageNouvelEmployeAjoute();
       this.gestionEmploye.cacherFormulaireNouvelEmploye();
+      await this.gestionEmploye.chargerEmployes();
     } else  {
       this.afficherErreurFormulaire();
     }

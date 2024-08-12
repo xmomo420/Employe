@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -53,6 +54,9 @@ public class EmployeController {
             employesACharge = employeRepository.findAllBySuperviseur(AggregateReference.to(employe.getId())).orElse(null);
         } else {
             employesACharge = employeRepository.findAllByRoleNot(Role.ADJOINT).orElse(null);
+        }
+        if (employesACharge != null) {
+            employesACharge.sort(Comparator.comparing(Employe::getNom));
         }
         return ResponseEntity.ok().body(employesACharge);
     }
